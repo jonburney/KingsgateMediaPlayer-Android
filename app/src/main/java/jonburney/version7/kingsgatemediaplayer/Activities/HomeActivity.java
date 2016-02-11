@@ -1,32 +1,40 @@
-package jonburney.version7.kingsgatemediaplayer;
+package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 
+import jonburney.version7.kingsgatemediaplayer.R;
+import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
+
+/**
+ * Home activity - The main activity when first starting the appilication
+ */
 public class HomeActivity extends Activity {
 
+    /**
+     * Executed when the activity is created
+     *
+     * @param savedInstanceState The activity state
+     *
+     * @return void
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
-        ArrayList<String> listItems = new ArrayList<String>() {{
-            add("Test Video 1");
-            add("Test Video 2");
-        }};
+        ArrayList<String> listItems = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
         videoList.setAdapter(adapter);
 
-
+        new VideoUpdater(this).execute();
     }
 
 

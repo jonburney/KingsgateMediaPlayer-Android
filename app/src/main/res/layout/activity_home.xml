@@ -8,11 +8,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/background"
-    tools:context="jonburney.version7.kingsgatemediaplayer.HomeActivity">
+    tools:context=".Activities.HomeActivity">
 
-    <ListView
-    android:id="@+id/videoList"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-        tools:context="jonburney.version7.kingsgatemediaplayer.VideoList" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="28dp">
+
+        <ListView
+            tools:context="jonburney.version7.kingsgatemediaplayer.VideoList"
+            android:id="@+id/videoList"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </RelativeLayout>
