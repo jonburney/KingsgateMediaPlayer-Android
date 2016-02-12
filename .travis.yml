@@ -2,7 +2,7 @@ language: android
 before_script:
     - curl https://s3.amazonaws.com/android-sdk-manager/redist/FireTV.zip > FireTV.zip
     - sudo unzip FireTV.zip
-    - sudo android update sdk --filter addon-amazon_fire_tv_addon-17
+    - android update sdk --filter addon-amazon_fire_tv_addon-17
 
 before_install:
     - chmod +x gradlew
