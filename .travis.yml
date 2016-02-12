@@ -1,8 +1,4 @@
 language: android
-before_script:
-    - curl https://s3.amazonaws.com/android-sdk-manager/redist/FireTV.zip > FireTV.zip
-    - sudo unzip FireTV.zip
-    - android update sdk --filter addon-amazon_fire_tv_addon-17 --no-ui
 
 before_install:
     - chmod +x gradlew
@@ -17,13 +13,12 @@ android:
     - build-tools-23.0.2
 
     # The SDK version used to compile your project
-    - android-17
+    - android-22
 
     # Additional components
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-17
-    - addon-amazon_fire_tv_addon-17
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
