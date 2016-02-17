@@ -8,13 +8,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.EndisRssProvider;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
 
 /**
  * Home activity - The main activity when first starting the appilication
  */
-public class HomeActivity extends Activity {
+public class MainActivity extends Activity {
+
+    @Inject
+    EndisRssProvider videoListDataProvider;
 
     /**
      * Executed when the activity is created
@@ -26,6 +35,9 @@ public class HomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.getApplicationComponent().inject(this);
+
         setContentView(R.layout.activity_home);
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
@@ -34,9 +46,12 @@ public class HomeActivity extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
         videoList.setAdapter(adapter);
 
-        new VideoUpdater(this).execute();
+        new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
     }
 
+    protected IApplicationComponent getApplicationComponent() {
+        return ((MainApp)getApplication()).getApplicationComponent();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

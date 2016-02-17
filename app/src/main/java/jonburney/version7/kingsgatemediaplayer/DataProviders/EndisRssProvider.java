@@ -9,15 +9,26 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by jburney on 06/02/2016.
  */
-public class EndisRssProvider {
+@Module
+public class EndisRssProvider implements IVideoListDataProvider {
+
+    @Inject
+    public EndisRssProvider() {
+
+    }
 
     /**
      * Update the video list from the remote source
@@ -26,7 +37,7 @@ public class EndisRssProvider {
      *
      * @return an ArrayList of entry titles as strings
      */
-    public ArrayList<String> UpdateVideoList(String rssFeedUrl) {
+    @Provides public ArrayList<String> FetchVideoList(String rssFeedUrl) {
 
         try {
             // @// TODO: 11/02/2016 Wrap this in a HttpClient abstraction for better testing
