@@ -40,5 +40,4 @@ public class ApplicationModule {
         return this.application;
     }
 
-
 }
