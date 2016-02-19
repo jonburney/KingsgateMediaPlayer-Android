@@ -12,7 +12,6 @@ before_script:
 addons:
     artifacts: true
     s3_region: "Ireland"
-	
   
 android:
   components:
