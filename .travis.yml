@@ -12,6 +12,7 @@ before_script:
 addons:
     artifacts: true
     s3_region: "eu-west-1"
+    endpoint: "kmp-builds.s3-website-eu-west-1.amazonaws.com"
     artifacts:
         paths:
           - $(git ls-files -o app/build/outputs | tr "\n" ":")
