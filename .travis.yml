@@ -14,7 +14,7 @@ addons:
     s3_region: "us-west-2"
     artifacts:
         paths:
-          - $(git ls-files -o app/build/outputs)
+          - $(git ls-files -o app/build/outputs | tr "\n" ":")
 
 android:
   components:
