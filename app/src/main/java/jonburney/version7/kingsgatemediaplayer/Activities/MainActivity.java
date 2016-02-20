@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
         ListView videoList = (ListView) findViewById(R.id.videoList);
         ArrayList<String> listItems = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.video_list_text, listItems);
         videoList.setAdapter(adapter);
 
         new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
