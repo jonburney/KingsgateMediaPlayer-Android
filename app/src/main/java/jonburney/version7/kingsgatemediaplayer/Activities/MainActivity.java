@@ -38,8 +38,7 @@ import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
  */
 public class MainActivity extends Activity {
 
-    @Inject
-    EndisRssProvider videoListDataProvider;
+    @Inject EndisRssProvider videoListDataProvider;
 
     /**
      * Executed when the activity is created

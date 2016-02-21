@@ -16,21 +16,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package jonburney.version7.kingsgatemediaplayer.Components;
+package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
-import android.content.Context;
-import javax.inject.Singleton;
-import dagger.Component;
-import jonburney.version7.kingsgatemediaplayer.Activities.MainActivity;
-import jonburney.version7.kingsgatemediaplayer.Modules.ApplicationModule;
-import jonburney.version7.kingsgatemediaplayer.Modules.HttpModule;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 
 /**
- * Created by jburney on 16/02/2016.
+ * Created by jburney on 20/02/2016.
  */
-@Singleton
-@Component(modules = {ApplicationModule.class, HttpModule.class})
-public interface IApplicationComponent {
-    void inject(MainActivity mainActivity);
-    Context context();
+public class HttpClient implements IHttpClient {
+
+
+    public HttpClient() {
+
+    }
+
+    @Override
+    public HttpResponse execute(HttpRequest request) throws IOException {
+
+        HttpURLConnection conn = (HttpURLConnection) request.getUrl().openConnection();
+        conn.setRequestMethod(request.getMethod());
+        conn.connect();
+
+        return new HttpResponse(conn.getInputStream());
+    }
 }

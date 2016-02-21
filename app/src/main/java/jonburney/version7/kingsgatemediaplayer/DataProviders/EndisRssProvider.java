@@ -34,6 +34,9 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import dagger.Module;
 import dagger.Provides;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 
 /**
  * Created by jburney on 06/02/2016.
@@ -41,9 +44,11 @@ import dagger.Provides;
 @Module
 public class EndisRssProvider implements IVideoListDataProvider {
 
-    @Inject
-    public EndisRssProvider() {
+    private IHttpClient httpClient;
 
+    @Inject
+    public EndisRssProvider(IHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     /**
@@ -56,16 +61,14 @@ public class EndisRssProvider implements IVideoListDataProvider {
     @Provides public ArrayList<String> FetchVideoList(String rssFeedUrl) {
 
         try {
-            // @// TODO: 11/02/2016 Wrap this in a HttpClient abstraction for better testing
-            URL url = new URL(rssFeedUrl);
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.connect();
+            HttpRequest request = new HttpRequest();
+            request.setUrl(rssFeedUrl);
+            request.setMethod("GET");
 
-            InputStream stream = conn.getInputStream();
+            HttpResponse response = this.httpClient.execute(request);
 
-            return fetchTitlesFromRss(stream);
+            return fetchTitlesFromRss(response.getStream());
 
         } catch (Exception e) {
             Log.e("e", "e is not null, toString is " + e + " and message is " + e.getMessage());
