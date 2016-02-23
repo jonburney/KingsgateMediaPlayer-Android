@@ -19,6 +19,8 @@
 package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
 import android.util.Log;
+
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParserException;
@@ -34,6 +36,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import dagger.Module;
 import dagger.Provides;
+import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
@@ -58,7 +61,7 @@ public class EndisRssProvider implements IVideoListDataProvider {
      *
      * @return an ArrayList of entry titles as strings
      */
-    @Provides public ArrayList<String> FetchVideoList(String rssFeedUrl) {
+    @Provides public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl) {
 
         try {
 
@@ -68,6 +71,7 @@ public class EndisRssProvider implements IVideoListDataProvider {
 
             HttpResponse response = this.httpClient.execute(request);
 
+            final VideoEntity testEntity = new VideoEntity();
             return fetchTitlesFromRss(response.getStream());
 
         } catch (Exception e) {
@@ -87,9 +91,9 @@ public class EndisRssProvider implements IVideoListDataProvider {
      * @throws IOException
      * @throws XPathExpressionException
      */
-    private ArrayList<String> fetchTitlesFromRss(InputStream rssFeed) throws XmlPullParserException, IOException, XPathExpressionException {
+    private ArrayList<VideoEntity> fetchTitlesFromRss(InputStream rssFeed) throws XmlPullParserException, IOException, XPathExpressionException {
 
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<VideoEntity> result = new ArrayList<>();
 
         // @// TODO: 11/02/2016 Wrap the Xpath and XML logic inside a service to allow for better testing and injection
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -100,18 +104,58 @@ public class EndisRssProvider implements IVideoListDataProvider {
 
         for (int i=0; i < nodes.getLength(); i++) {
             NodeList childNodes = nodes.item(i).getChildNodes();
-
+            VideoEntity video = new VideoEntity();
             for (int j=0; j < childNodes.getLength(); j++) {
+
                 String nodeName = childNodes.item(j).getNodeName();
 
 
                 if (nodeName.equals("title")) {
-                    String value = childNodes.item(j).getTextContent();
-                    if (value != null) {
-                        Log.i("XML", "Fond title: " + value);
-                        result.add(value);
+                    String title = childNodes.item(j).getTextContent();
+                    if (title != null) {
+                        Log.i("XML", "Fond title: " + title);
+                        video.title = title;
                     }
                 }
+
+                if (nodeName.equals("description")) {
+                    String description = childNodes.item(j).getTextContent();
+                    if (description != null) {
+                        Log.i("XML", "Fond desc: " + description);
+                        video.description = description;
+                    }
+                }
+
+                if (nodeName.equals("enclosure")) {
+
+                    NamedNodeMap attributes = childNodes.item(j).getAttributes();
+                    Boolean isVideo = false;
+                    String url = "";
+
+                    for (int k=0; k < attributes.getLength(); k++) {
+
+                        if (attributes.item(k).getNodeName().equals("url")) {
+                            Log.i("XML", "Setting URL");
+                            url = attributes.item(k).getNodeValue();
+                        }
+
+                        if (attributes.item(k).getNodeName().equals("type") && attributes.item(k).getNodeValue().equals("video/mp4")) {
+                            Log.i("XML", "Setting Video flag");
+                            isVideo = true;
+                        }
+                    }
+
+                    if (isVideo) {
+                        Log.i("XML", "Fond video: " + url);
+                        video.url = url;
+                    }
+                }
+
+
+            }
+
+            if (video.isValid()) {
+                result.add(video);
             }
 
         }
