@@ -19,9 +19,12 @@
 package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.EndisRssProvider;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
@@ -56,9 +60,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
-        ArrayList<String> listItems = new ArrayList<>();
+        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
+                intent.putExtra("VideoTitle", ((VideoEntity)parent.getSelectedItem()).title);
+                intent.putExtra("VideoDescription", ((VideoEntity)parent.getSelectedItem()).description);
+                intent.putExtra("VideoUrl", ((VideoEntity)parent.getSelectedItem()).url);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.video_list_text, listItems);
+                startActivity(intent);
+            }
+        });
+        ArrayList<VideoEntity> listItems = new ArrayList<>();
+
+        ArrayAdapter<VideoEntity> adapter = new ArrayAdapter<>(this, R.layout.video_list_text, listItems);
         videoList.setAdapter(adapter);
 
         new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();

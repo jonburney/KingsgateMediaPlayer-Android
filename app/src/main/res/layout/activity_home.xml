@@ -21,7 +21,7 @@
         <ListView
             tools:context="jonburney.version7.kingsgatemediaplayer.VideoList"
             android:id="@+id/videoList"
-            android:layout_width="250dp"
+            android:layout_width="450dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/video_list_font_size"/>
 

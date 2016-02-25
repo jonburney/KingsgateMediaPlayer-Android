@@ -20,9 +20,11 @@ package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
 import java.util.ArrayList;
 
+import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
+
 /**
  * Created by jburney on 16/02/2016.
  */
 public interface IVideoListDataProvider {
-    public ArrayList<String> FetchVideoList(String rssFeedUrl);
+    public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl);
 }
