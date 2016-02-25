@@ -9,6 +9,9 @@ before_script:
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
   
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 addons:
     artifacts: true
     s3_region: "us-west-2"
