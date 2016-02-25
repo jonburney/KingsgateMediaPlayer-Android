@@ -8,23 +8,27 @@ import java.net.URL;
 /**
  * Created by jburney on 21/02/2016.
  */
-public class HttpRequest {
+public class HttpRequest implements IHttpRequest {
 
     private URL url;
     private String method;
 
+    @Override
     public void setUrl(String url) throws MalformedURLException {
         this.url = new URL(url);
     }
 
+    @Override
     public URL getUrl() {
         return this.url;
     }
 
+    @Override
     public void setMethod(String method) {
         this.method = method;
     }
 
+    @Override
     public String getMethod() {
         return this.method;
     }
