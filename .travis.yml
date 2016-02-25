@@ -8,7 +8,13 @@ before_script:
     - emulator -avd test -no-audio -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
-  
+script:
+    - ./gradlew build jacocoTestReport assembleAndroidTest
+    - ./gradlew build connectedAndroidTest
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 addons:
     artifacts: true
     s3_region: "us-west-2"
