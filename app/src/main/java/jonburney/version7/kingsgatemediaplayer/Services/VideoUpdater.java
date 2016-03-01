@@ -25,12 +25,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;
 
 /**
  * Created by jburney on 08/02/2016.
  */
-public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<String>> {
+public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<VideoEntity>> {
 
     private String VideoListUrl = "http://www.kingsgateuk.com/Media/rss.xml";
 
@@ -43,18 +44,17 @@ public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<String>> 
         this.videoListProvider = videoListProvider;
     }
 
-    protected ArrayList<String> doInBackground(String... urls) {
-
-        ArrayList<String> videoList = videoListProvider.FetchVideoList(VideoListUrl);
+    protected ArrayList<VideoEntity> doInBackground(String... urls) {
+        ArrayList<VideoEntity> videoList = videoListProvider.FetchVideoList(VideoListUrl);
 
         return videoList;
     }
 
-    protected void onPostExecute(ArrayList<String> results) {
+    protected void onPostExecute(ArrayList<VideoEntity> results) {
         super.onPostExecute(results);
 
         ListView VideoListView = (ListView) HomeActivity.findViewById(R.id.videoList);
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>)VideoListView.getAdapter();
+        ArrayAdapter<VideoEntity> adapter = (ArrayAdapter<VideoEntity>)VideoListView.getAdapter();
 
         adapter.addAll(results);
 
