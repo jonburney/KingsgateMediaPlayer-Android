@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
         videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
                 intent.putExtra("VideoTitle", ((VideoEntity)parent.getSelectedItem()).title);
                 intent.putExtra("VideoDescription", ((VideoEntity)parent.getSelectedItem()).description);

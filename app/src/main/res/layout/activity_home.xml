@@ -21,9 +21,19 @@
         <ListView
             tools:context="jonburney.version7.kingsgatemediaplayer.VideoList"
             android:id="@+id/videoList"
-            android:layout_width="450dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/video_list_font_size"/>
+
+        <LinearLayout
+            android:id="@+id/videoPreviewiew"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <include layout="@layout/video_preview"></include>
+
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>
