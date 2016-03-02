@@ -48,7 +48,6 @@ public class VideoPlayerActivity extends Activity {
             }
         }
 
-
         VideoView videoView = (VideoView)findViewById(R.id.video_player);
 
         final ProgressDialog progressDialog = new ProgressDialog(VideoPlayerActivity.this);
@@ -71,7 +70,5 @@ public class VideoPlayerActivity extends Activity {
                 mp.start();
             }
         });
-
     }
-
 }

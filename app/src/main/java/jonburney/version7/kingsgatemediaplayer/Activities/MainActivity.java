@@ -27,6 +27,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
@@ -63,10 +65,13 @@ public class MainActivity extends Activity {
         videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
-                intent.putExtra("VideoTitle", ((VideoEntity)parent.getSelectedItem()).title);
-                intent.putExtra("VideoDescription", ((VideoEntity)parent.getSelectedItem()).description);
-                intent.putExtra("VideoUrl", ((VideoEntity)parent.getSelectedItem()).url);
+                VideoEntity clickedVideoEntity = (VideoEntity)parent.getItemAtPosition(position);
+
+                intent.putExtra("VideoTitle", clickedVideoEntity.title);
+                intent.putExtra("VideoDescription", clickedVideoEntity.description);
+                intent.putExtra("VideoUrl", clickedVideoEntity.url);
 
                 startActivity(intent);
             }
