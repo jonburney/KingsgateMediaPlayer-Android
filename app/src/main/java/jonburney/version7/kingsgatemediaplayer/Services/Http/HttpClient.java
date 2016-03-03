@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+
 /**
  * Created by jburney on 20/02/2016.
  */
@@ -33,7 +35,7 @@ public class HttpClient implements IHttpClient {
     }
 
     @Override
-    public HttpResponse execute(HttpRequest request) throws IOException {
+    public HttpResponse execute(HttpRequest request) throws IOException, UrlNotSetException {
 
         HttpURLConnection conn = (HttpURLConnection) request.getUrl().openConnection();
         conn.setRequestMethod(request.getMethod());
