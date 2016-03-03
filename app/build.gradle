@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'jacoco-android'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 17
     buildToolsVersion '21.1.1'
 
     defaultConfig {
         applicationId "jonburney.version7.kingsgatemediaplayer"
         minSdkVersion 17
-        targetSdkVersion 22
+        targetSdkVersion 17
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
