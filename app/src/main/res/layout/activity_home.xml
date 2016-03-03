@@ -25,15 +25,49 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/video_list_font_size"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/videoPreviewiew"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:paddingLeft="40dp">
 
-            <include layout="@layout/video_preview"></include>
+                <TextView
+                    android:id="@+id/videoPreviewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The Power of Everyone Devoted"
+                    android:textSize="20dp"/>
 
-        </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/videoPreviewThumbnail"
+                    android:layout_width="600dp"
+                    android:layout_height="280dp"
+                    android:src="@drawable/thumbnail"
+                    android:layout_gravity="fill_vertical"
+                    android:layout_below="@+id/videoPreviewTitle"
+                    android:scaleType="fitStart"/>
+
+
+                <TextView
+                    android:id="@+id/videoPreviewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Senior Pastor Deve Smith brings us Part 1 of our series 'The Power of Everyone'"
+                    android:layout_below="@+id/videoPreviewThumbnail"/>
+
+
+                <TextView
+                    android:id="@+id/videoPreviewDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time: 42mins'"
+                    android:layout_below="@+id/videoPreviewDescription"/>
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>

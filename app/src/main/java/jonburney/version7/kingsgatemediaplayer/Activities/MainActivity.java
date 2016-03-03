@@ -21,12 +21,16 @@ package jonburney.version7.kingsgatemediaplayer.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,6 +50,8 @@ public class MainActivity extends Activity {
 
     @Inject EndisRssProvider videoListDataProvider;
 
+    private RelativeLayout videoPreview;
+
     /**
      * Executed when the activity is created
      *
@@ -54,7 +60,7 @@ public class MainActivity extends Activity {
      * @return void
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.getApplicationComponent().inject(this);
@@ -66,14 +72,32 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
                 VideoEntity clickedVideoEntity = (VideoEntity)parent.getItemAtPosition(position);
+                updateVideoPreview(clickedVideoEntity);
+
+                /*
+                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
+
 
                 intent.putExtra("VideoTitle", clickedVideoEntity.title);
                 intent.putExtra("VideoDescription", clickedVideoEntity.description);
                 intent.putExtra("VideoUrl", clickedVideoEntity.url);
 
-                startActivity(intent);
+                startActivity(intent);*/
+            }
+
+        });
+
+        videoList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                VideoEntity clickedVideoEntity = (VideoEntity)parent.getItemAtPosition(position);
+                updateVideoPreview(clickedVideoEntity);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
         ArrayList<VideoEntity> listItems = new ArrayList<>();
@@ -82,6 +106,17 @@ public class MainActivity extends Activity {
         videoList.setAdapter(adapter);
 
         new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
+    }
+
+    protected void updateVideoPreview(VideoEntity clickedVideoEntity) {
+        videoPreview = (RelativeLayout)findViewById(R.id.videoPreviewiew);
+        videoPreview.setVisibility(View.VISIBLE);
+
+        TextView videoPreviewTitle = (TextView)findViewById(R.id.videoPreviewTitle);
+        videoPreviewTitle.setText(clickedVideoEntity.title);
+
+        TextView videoPreviewDescription = (TextView)findViewById(R.id.videoPreviewDescription);
+        videoPreviewDescription.setText(clickedVideoEntity.description);
     }
 
     protected IApplicationComponent getApplicationComponent() {

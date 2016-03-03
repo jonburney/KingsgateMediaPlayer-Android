@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.VideoPlayerActivity">
-
+        <activity android:name=".Activities.VideoPlayerActivity"
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
 
 
