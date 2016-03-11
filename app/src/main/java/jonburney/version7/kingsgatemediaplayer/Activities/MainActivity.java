@@ -20,6 +20,9 @@ package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -28,19 +31,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.EndisRssProvider;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.KingsgateCustomFeedProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
+import jonburney.version7.kingsgatemediaplayer.Services.VideoThumbnailUpdater;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
 
 /**
@@ -48,9 +62,11 @@ import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
  */
 public class MainActivity extends Activity {
 
-    @Inject EndisRssProvider videoListDataProvider;
+    @Inject IVideoListDataProvider videoListDataProvider;
+    @Inject IHttpClient httpClient;
 
     private RelativeLayout videoPreview;
+    private VideoEntity selectedVideoEntity;
 
     /**
      * Executed when the activity is created
@@ -72,34 +88,38 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                VideoEntity clickedVideoEntity = (VideoEntity)parent.getItemAtPosition(position);
+                VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
                 updateVideoPreview(clickedVideoEntity);
 
-                /*
-                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
 
-
-                intent.putExtra("VideoTitle", clickedVideoEntity.title);
-                intent.putExtra("VideoDescription", clickedVideoEntity.description);
-                intent.putExtra("VideoUrl", clickedVideoEntity.url);
-
-                startActivity(intent);*/
             }
 
         });
 
-        videoList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        videoList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                VideoEntity clickedVideoEntity = (VideoEntity)parent.getItemAtPosition(position);
+                VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
                 updateVideoPreview(clickedVideoEntity);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+
             }
         });
+
+        Button playVideoButton = (Button) findViewById(R.id.videoPreviewPlayButton);
+        playVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
+                intent.putExtra("VideoUrl", MainActivity.this.selectedVideoEntity.url);
+                startActivity(intent);
+            }
+        });
+
         ArrayList<VideoEntity> listItems = new ArrayList<>();
 
         ArrayAdapter<VideoEntity> adapter = new ArrayAdapter<>(this, R.layout.video_list_text, listItems);
@@ -109,6 +129,8 @@ public class MainActivity extends Activity {
     }
 
     protected void updateVideoPreview(VideoEntity clickedVideoEntity) {
+
+
         videoPreview = (RelativeLayout)findViewById(R.id.videoPreviewiew);
         videoPreview.setVisibility(View.VISIBLE);
 
@@ -117,6 +139,13 @@ public class MainActivity extends Activity {
 
         TextView videoPreviewDescription = (TextView)findViewById(R.id.videoPreviewDescription);
         videoPreviewDescription.setText(clickedVideoEntity.description);
+
+        TextView videoPreviewDuration = (TextView)findViewById(R.id.videoPreviewDuration);
+        videoPreviewDuration.setText("Time: " + clickedVideoEntity.duration);
+
+        new VideoThumbnailUpdater(this, httpClient).execute(clickedVideoEntity.thumbnailUrl);
+
+        selectedVideoEntity = clickedVideoEntity;
     }
 
     protected IApplicationComponent getApplicationComponent() {

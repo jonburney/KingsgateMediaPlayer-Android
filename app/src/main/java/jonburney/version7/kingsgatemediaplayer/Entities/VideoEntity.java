@@ -1,5 +1,6 @@
 package jonburney.version7.kingsgatemediaplayer.Entities;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -9,6 +10,9 @@ public class VideoEntity {
     public String title;
     public String url;
     public String description;
+    public String thumbnailUrl;
+    public String duration;
+    public Bitmap thumbnailBitmap;
 
     @Override
     public String toString() {

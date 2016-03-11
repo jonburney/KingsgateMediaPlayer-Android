@@ -16,22 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package jonburney.version7.kingsgatemediaplayer.Components;
+package jonburney.version7.kingsgatemediaplayer.Modules;
 
-import android.content.Context;
 import javax.inject.Singleton;
-import dagger.Component;
-import jonburney.version7.kingsgatemediaplayer.Activities.MainActivity;
-import jonburney.version7.kingsgatemediaplayer.Modules.ApplicationModule;
-import jonburney.version7.kingsgatemediaplayer.Modules.DataProviderModule;
-import jonburney.version7.kingsgatemediaplayer.Modules.HttpModule;
+
+import dagger.Module;
+import dagger.Provides;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.KingsgateCustomFeedProvider;
+import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 
 /**
- * Created by jburney on 16/02/2016.
+ * Created by jburney on 21/02/2016.
  */
-@Singleton
-@Component(modules = {ApplicationModule.class, HttpModule.class, DataProviderModule.class})
-public interface IApplicationComponent {
-    void inject(MainActivity mainActivity);
-    Context context();
+@Module
+public class DataProviderModule {
+
+    public DataProviderModule() {
+
+    }
+
+    @Provides
+    @Singleton
+    IVideoListDataProvider providesIVideoListDataProvider(IHttpClient httpClient) {
+        return new KingsgateCustomFeedProvider(httpClient);
+    }
+
 }

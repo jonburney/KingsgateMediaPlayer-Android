@@ -44,7 +44,6 @@ import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 /**
  * Created by jburney on 06/02/2016.
  */
-@Module
 public class EndisRssProvider implements IVideoListDataProvider {
 
     private IHttpClient httpClient;
@@ -61,7 +60,7 @@ public class EndisRssProvider implements IVideoListDataProvider {
      *
      * @return an ArrayList of entry titles as strings
      */
-    @Provides public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl) {
+    public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl) {
 
         try {
 
@@ -71,7 +70,6 @@ public class EndisRssProvider implements IVideoListDataProvider {
 
             HttpResponse response = this.httpClient.execute(request);
 
-            final VideoEntity testEntity = new VideoEntity();
             return fetchTitlesFromRss(response.getStream());
 
         } catch (Exception e) {

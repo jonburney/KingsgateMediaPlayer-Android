@@ -18,7 +18,10 @@
  */
 package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.xpath.XPathExpressionException;
 
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 
