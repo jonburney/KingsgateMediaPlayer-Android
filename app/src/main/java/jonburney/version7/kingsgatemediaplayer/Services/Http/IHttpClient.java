@@ -19,11 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
 import java.io.IOException;
-import java.net.ProtocolException;
-
-import dagger.Component;
-import dagger.Module;
-import dagger.Provides;
 import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
 
 /**

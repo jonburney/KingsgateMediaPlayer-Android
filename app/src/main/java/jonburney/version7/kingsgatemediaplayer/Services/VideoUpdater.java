@@ -22,8 +22,12 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.inject.Inject;
+import javax.xml.xpath.XPathExpressionException;
+
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;
@@ -45,7 +49,10 @@ public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<VideoEnti
     }
 
     protected ArrayList<VideoEntity> doInBackground(String... urls) {
-        ArrayList<VideoEntity> videoList = videoListProvider.FetchVideoList(VideoListUrl);
+        ArrayList<VideoEntity> videoList = null;
+
+        videoList = videoListProvider.FetchVideoList(VideoListUrl);
+
 
         return videoList;
     }
@@ -56,9 +63,10 @@ public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<VideoEnti
         ListView VideoListView = (ListView) HomeActivity.findViewById(R.id.videoList);
         ArrayAdapter<VideoEntity> adapter = (ArrayAdapter<VideoEntity>)VideoListView.getAdapter();
 
-        adapter.addAll(results);
-
-        adapter.notifyDataSetChanged();
+        if (results.size() > 0) {
+            adapter.addAll(results);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 }

@@ -20,7 +20,6 @@ package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 
 import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
 
