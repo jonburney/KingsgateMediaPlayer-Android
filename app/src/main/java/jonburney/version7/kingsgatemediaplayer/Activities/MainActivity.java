@@ -20,39 +20,26 @@ package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
+
 import javax.inject.Inject;
+
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
-import jonburney.version7.kingsgatemediaplayer.DataProviders.EndisRssProvider;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
-import jonburney.version7.kingsgatemediaplayer.DataProviders.KingsgateCustomFeedProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoThumbnailUpdater;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;

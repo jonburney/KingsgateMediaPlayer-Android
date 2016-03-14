@@ -16,16 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package jonburney.version7.kingsgatemediaplayer.Services.Http;
+package jonburney.version7.kingsgatemediaplayer.Exceptions.Http;
 
-import java.io.IOException;
 
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
+public class HttpClientException extends Exception {
 
-/**
- * Created by jburney on 21/02/2016.
- */
-public interface IHttpClient {
-
-    HttpResponse execute(HttpRequest request) throws HttpClientException;
+    public HttpClientException(String exceptionMessage) {
+        super(exceptionMessage);
+    }
 }

@@ -18,42 +18,67 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
-import org.apache.http.protocol.HTTP;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
-
-/**
- * Created by jburney on 21/02/2016.
- */
 public class HttpRequest implements IHttpRequest {
 
     private URL url;
     private String method;
 
     @Override
-    public void setUrl(String url) throws MalformedURLException {
-        this.url = new URL(url);
+    public void setUrl(String url) throws HttpRequestException {
+
+        if (url == "") {
+            throw new HttpRequestException("The target URL must be specified");
+        }
+
+        try {
+            this.url = new URL(url);
+        } catch (Exception e) {
+            throw new HttpRequestException(e.getMessage());
+        }
     }
 
-    @Override
     /**
-     *
+     * Gets the URL specified for this request
+     * @throws HttpRequestException
      */
-    public URL getUrl() throws UrlNotSetException {
+    @Override
+    public URL getUrl() throws HttpRequestException {
 
-        if (this.url == null || this.url.toString() == "") {
-            throw new UrlNotSetException();
+        if (this.url == null) {
+            throw new HttpRequestException("The target URL must be specified");
         }
 
         return this.url;
     }
 
+    /**
+     * Set the HTTP method to use for the request
+     * @param method
+     * @throws HttpRequestException
+     */
     @Override
-    public void setMethod(String method) {
-        this.method = method;
+    public void setMethod(String method) throws HttpRequestException {
+
+        // Be nice and let people use lower-case
+        method = method.toUpperCase();
+
+        // Check that we are using supported HTTP verbs. The only current use-cases are for GET
+        switch (method) {
+            case "GET":
+            case "POST":
+            case "PUT":
+            case "DELETE":
+                this.method = method;
+                return;
+        }
+
+        // Something else was passed so throw
+        throw new HttpRequestException("The specified HTTP method is not supported");
+
     }
 
     @Override

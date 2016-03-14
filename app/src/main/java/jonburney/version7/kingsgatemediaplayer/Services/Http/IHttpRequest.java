@@ -18,20 +18,15 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
-import java.net.MalformedURLException;
 import java.net.URL;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
-
-/**
- * Created by jburney on 24/02/2016.
- */
 public interface IHttpRequest {
-    void setUrl(String url) throws MalformedURLException;
+    void setUrl(String url) throws HttpRequestException;
 
-    URL getUrl() throws UrlNotSetException;
+    URL getUrl() throws HttpRequestException;
 
-    void setMethod(String method);
+    void setMethod(String method) throws HttpRequestException;
 
     String getMethod();
 }

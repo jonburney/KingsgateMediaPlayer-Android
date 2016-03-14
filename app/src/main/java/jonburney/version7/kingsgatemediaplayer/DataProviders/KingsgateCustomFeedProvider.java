@@ -38,7 +38,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
@@ -61,17 +62,19 @@ public class KingsgateCustomFeedProvider implements IVideoListDataProvider {
         HttpRequest request = new HttpRequest();
         try {
             request.setUrl("http://kingsgateuk.com/Media/MediaXML.xml?fid=3882");
-        } catch (MalformedURLException e) {
+        } catch (HttpRequestException e) {
             return new ArrayList<>();
         }
-        request.setMethod("GET");
+        try {
+            request.setMethod("GET");
+        } catch (HttpRequestException e) {
+            e.printStackTrace();
+        }
 
         HttpResponse response;
         try {
             response = this.httpClient.execute(request);
-        } catch (UrlNotSetException e) {
-            return new ArrayList<>();
-        } catch (IOException e) {
+        } catch (Exception e) {
             return new ArrayList<>();
         }
 

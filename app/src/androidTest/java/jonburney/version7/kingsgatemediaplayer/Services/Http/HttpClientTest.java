@@ -31,7 +31,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 import kotlin.jvm.Throws;
 
 import static junit.framework.Assert.*;
@@ -39,9 +40,7 @@ import static junit.extensions.TestSetup.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by jburney on 24/02/2016.
- */
+
 public class HttpClientTest {
 
     public HttpClientTest() {
@@ -53,9 +52,9 @@ public class HttpClientTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testMakingARequestWithNoUrlThorwsException() throws UrlNotSetException, IOException {
+    public void testMakingARequestWithNoUrlThorwsException() throws HttpClientException, HttpRequestException {
 
-        thrown.expect(UrlNotSetException.class);
+        thrown.expect(HttpClientException.class);
 
         HttpRequest httpRequest = new HttpRequest();
 

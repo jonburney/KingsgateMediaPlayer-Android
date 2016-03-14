@@ -14,7 +14,7 @@ import javax.inject.Inject;
 
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
@@ -43,17 +43,19 @@ public class VideoThumbnailUpdater extends AsyncTask<String, Integer, Bitmap> {
         HttpRequest request = new HttpRequest();
         try {
             request.setUrl(thumbnailUrl[0]);
-        } catch (MalformedURLException e) {
+        } catch (HttpRequestException e) {
             e.printStackTrace();
         }
-        request.setMethod("GET");
+        try {
+            request.setMethod("GET");
+        } catch (HttpRequestException e) {
+            e.printStackTrace();
+        }
         HttpResponse response = null;
 
         try {
             response = httpClient.execute(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (UrlNotSetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
