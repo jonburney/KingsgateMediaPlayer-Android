@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
@@ -47,7 +48,9 @@ import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
 /**
  * Home activity - The main activity when first starting the appilication
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
+
+    @Bind(R.id.videoList) ListView videoListFragment;
 
     @Inject IVideoListDataProvider videoListDataProvider;
     @Inject IHttpClient httpClient;
@@ -67,18 +70,21 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.getApplicationComponent().inject(this);
-
         setContentView(R.layout.activity_home);
+
+
+
+        /*
+        getFragmentManager().beginTransaction().replace(
+                videoListFragment.getId(),
+        )
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
         videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
                 updateVideoPreview(clickedVideoEntity);
-
-
             }
 
         });
@@ -113,6 +119,7 @@ public class MainActivity extends Activity {
         videoList.setAdapter(adapter);
 
         new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
+        */
     }
 
     protected void updateVideoPreview(VideoEntity clickedVideoEntity) {

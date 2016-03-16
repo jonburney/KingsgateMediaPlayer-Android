@@ -40,5 +40,4 @@ public class HttpModule {
     IHttpClient providesIHttpClient() {
         return new HttpClient();
     }
-
 }

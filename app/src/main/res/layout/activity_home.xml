@@ -18,12 +18,11 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="28dp">
 
-        <ListView
-            tools:context="jonburney.version7.kingsgatemediaplayer.VideoList"
-            android:id="@+id/videoList"
+        <fragment
+            android:id="@+id/videoListFragment"
+            android:name="jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/video_list_font_size"/>
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/videoPreviewiew"
