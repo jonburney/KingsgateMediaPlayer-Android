@@ -75,7 +75,6 @@ public class VideoThumbnailUpdater extends AsyncTask<String, Integer, Bitmap> {
     }
 
     protected void onPostExecute(Bitmap result) {
-        ImageView targetImage = (ImageView)homeActivity.findViewById(R.id.videoPreviewThumbnail);
-        targetImage.setImageBitmap(result);
+
     }
 }

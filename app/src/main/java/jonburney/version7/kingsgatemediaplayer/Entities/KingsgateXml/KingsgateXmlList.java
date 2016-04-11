@@ -41,8 +41,6 @@ public class KingsgateXmlList {
 
         for (KingsgateXmlGroup currentGroup: this.group) {
 
-            Log.i("RESULT", "Found group");
-
             if (currentGroup.group != null) {
 
                 for (KingsgateXmlGroup subGroup: currentGroup.group) {

@@ -107,26 +107,6 @@ public class MainActivity extends BaseActivity {
         */
     }
 
-    protected void updateVideoPreview(VideoEntity clickedVideoEntity) {
-
-
-        videoPreview = (RelativeLayout)findViewById(R.id.videoPreviewiew);
-        videoPreview.setVisibility(View.VISIBLE);
-
-        TextView videoPreviewTitle = (TextView)findViewById(R.id.videoPreviewTitle);
-        videoPreviewTitle.setText(clickedVideoEntity.title);
-
-        TextView videoPreviewDescription = (TextView)findViewById(R.id.videoPreviewDescription);
-        videoPreviewDescription.setText(clickedVideoEntity.description);
-
-        TextView videoPreviewDuration = (TextView)findViewById(R.id.videoPreviewDuration);
-        videoPreviewDuration.setText("Time: " + clickedVideoEntity.duration);
-
-        new VideoThumbnailUpdater(this, httpClient).execute(clickedVideoEntity.thumbnailUrl);
-
-        selectedVideoEntity = clickedVideoEntity;
-    }
-
     protected IApplicationComponent getApplicationComponent() {
         return ((MainApp)getApplication()).getApplicationComponent();
     }

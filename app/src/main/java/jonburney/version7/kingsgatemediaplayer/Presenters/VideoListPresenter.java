@@ -57,7 +57,7 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("VideoListPresenter", "Error: " + e.getMessage());
+                        Log.e("VideoListPresenter", "Error: ", e);
                     }
 
                     @Override
