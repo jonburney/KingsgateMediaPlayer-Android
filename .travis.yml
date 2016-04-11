@@ -4,7 +4,7 @@ before_install:
     - chmod +x gradlew
 
 before_script:
-    - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+    - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
     - emulator -avd test -no-audio -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
@@ -38,7 +38,7 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-17
-    - sys-img-armeabi-v7a-android-17
+    - sys-img-armeabi-v7a-android-13
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
