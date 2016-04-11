@@ -18,23 +18,14 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
 import javax.inject.Inject;
-
 import butterknife.Bind;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
@@ -43,7 +34,6 @@ import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoThumbnailUpdater;
-import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
 
 /**
  * Home activity - The main activity when first starting the appilication
@@ -72,12 +62,7 @@ public class MainActivity extends BaseActivity {
         this.getApplicationComponent().inject(this);
         setContentView(R.layout.activity_home);
 
-
-
         /*
-        getFragmentManager().beginTransaction().replace(
-                videoListFragment.getId(),
-        )
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
         videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

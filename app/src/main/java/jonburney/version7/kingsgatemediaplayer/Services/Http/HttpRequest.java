@@ -18,7 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpRequestException;
 

@@ -26,20 +26,18 @@ import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import dagger.Module;
-import dagger.Provides;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by jburney on 06/02/2016.
@@ -47,10 +45,17 @@ import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 public class EndisRssProvider implements IVideoListDataProvider {
 
     private IHttpClient httpClient;
+    private String defaultFeedUrl;
 
     @Inject
     public EndisRssProvider(IHttpClient httpClient) {
         this.httpClient = httpClient;
+    }
+
+
+    @Override
+    public Observable<ArrayList<VideoEntity>> FetchVideoList() {
+        return FetchVideoList(defaultFeedUrl);
     }
 
     /**
@@ -60,7 +65,8 @@ public class EndisRssProvider implements IVideoListDataProvider {
      *
      * @return an ArrayList of entry titles as strings
      */
-    public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl) {
+    @Override
+    public Observable<ArrayList<VideoEntity>> FetchVideoList(String rssFeedUrl) {
 
         try {
 
@@ -70,13 +76,27 @@ public class EndisRssProvider implements IVideoListDataProvider {
 
             HttpResponse response = this.httpClient.execute(request);
 
-            return fetchTitlesFromRss(response.getStream());
+            Observable<ArrayList<VideoEntity>> observable = Observable.just(fetchTitlesFromRss(response.getStream()));
+            return observable;
 
         } catch (Exception e) {
             Log.e("e", "e is not null, toString is " + e + " and message is " + e.getMessage());
-            return new ArrayList<>();
+            Observable<ArrayList<VideoEntity>> observable  =  Observable.create(
+                    new Observable.OnSubscribe<ArrayList<VideoEntity>>() {
+
+                        @Override
+                        public void call(Subscriber<? super ArrayList<VideoEntity>> subscriber) {
+                            subscriber.onNext(new ArrayList<VideoEntity>());
+                            subscriber.onCompleted();
+                        }
+                    }
+
+            );
+
+            return observable;
         }
     }
+
 
     /**
      * Parse the RSS inside a given input stream and return the titles

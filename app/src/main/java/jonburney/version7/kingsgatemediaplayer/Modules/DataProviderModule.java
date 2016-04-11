@@ -18,8 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Modules;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
@@ -37,7 +35,6 @@ public class DataProviderModule {
     }
 
     @Provides
-    @Singleton
     IVideoListDataProvider providesIVideoListDataProvider(IHttpClient httpClient) {
         return new KingsgateCustomFeedProvider(httpClient);
     }

@@ -18,8 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Modules;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpClient;
@@ -36,7 +34,6 @@ public class HttpModule {
     }
 
     @Provides
-    @Singleton
     IHttpClient providesIHttpClient() {
         return new HttpClient();
     }

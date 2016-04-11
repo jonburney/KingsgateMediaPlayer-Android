@@ -18,14 +18,17 @@
  */
 package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
-import java.util.ArrayList;
-import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
+import jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml.KingsgateXmlList;
 import rx.Observable;
 
+import retrofit2.http.GET;
+
 /**
- * Created by jburney on 16/02/2016.
+ * Created by jburney on 24/03/2016.
  */
-public interface IVideoListDataProvider {
-    public Observable<ArrayList<VideoEntity>> FetchVideoList(String rssFeedUrl);
-    public Observable<ArrayList<VideoEntity>> FetchVideoList();
+public interface IKingsgateAdvancedMediaEndpoint {
+
+    @GET("/Media/MediaXML.xml?fid=3882")
+    Observable<KingsgateXmlList> getApiResponse();
+
 }
