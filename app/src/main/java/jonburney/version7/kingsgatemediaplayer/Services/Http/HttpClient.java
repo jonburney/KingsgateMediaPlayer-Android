@@ -20,26 +20,47 @@ package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
 
 /**
- * Created by jburney on 20/02/2016.
+ * HttpClient used for making Http requests defined in a HttpRequest object
  */
 public class HttpClient implements IHttpClient {
-
 
     public HttpClient() {
 
     }
 
+    /**
+     * Execute a HttpRequest using the supplied HttpRequest object
+     *
+     * @param request The instance of HttpRequest that we are executing
+     * @return HttpResponse
+     * @throws HttpClientException
+     */
     @Override
-    public HttpResponse execute(HttpRequest request) throws IOException, UrlNotSetException {
+    public HttpResponse execute(HttpRequest request) throws HttpClientException {
 
-        HttpURLConnection conn = (HttpURLConnection) request.getUrl().openConnection();
-        conn.setRequestMethod(request.getMethod());
-        conn.connect();
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) request.getUrl().openConnection();
+        } catch (Exception e) {
+            throw new HttpClientException(e.getMessage());
+        }
 
-        return new HttpResponse(conn.getInputStream());
+        try {
+            conn.setRequestMethod(request.getMethod());
+        } catch (ProtocolException e) {
+            throw new HttpClientException(e.getMessage());
+        }
+
+        try {
+            conn.connect();
+            return new HttpResponse(conn.getInputStream());
+        } catch (IOException e) {
+            throw new HttpClientException(e.getMessage());
+        }
     }
 }

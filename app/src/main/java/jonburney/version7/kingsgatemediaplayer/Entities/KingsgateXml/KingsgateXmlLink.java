@@ -16,16 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package jonburney.version7.kingsgatemediaplayer.DataProviders;
+package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 
-import java.util.ArrayList;
-import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import rx.Observable;
+import org.simpleframework.xml.Root;
 
-/**
- * Created by jburney on 16/02/2016.
- */
-public interface IVideoListDataProvider {
-    public Observable<ArrayList<VideoEntity>> FetchVideoList(String rssFeedUrl);
-    public Observable<ArrayList<VideoEntity>> FetchVideoList();
+@Root(name="links", strict=false)
+public class KingsgateXmlLink {
+
 }

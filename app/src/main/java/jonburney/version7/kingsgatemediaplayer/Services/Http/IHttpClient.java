@@ -19,12 +19,13 @@
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
 import java.io.IOException;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
+
+import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
 
 /**
  * Created by jburney on 21/02/2016.
  */
 public interface IHttpClient {
 
-    HttpResponse execute(HttpRequest request) throws IOException, UrlNotSetException;
+    HttpResponse execute(HttpRequest request) throws HttpClientException;
 }

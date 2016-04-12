@@ -24,13 +24,15 @@ import dagger.Component;
 import jonburney.version7.kingsgatemediaplayer.Activities.MainActivity;
 import jonburney.version7.kingsgatemediaplayer.Modules.ApplicationModule;
 import jonburney.version7.kingsgatemediaplayer.Modules.DataProviderModule;
+import jonburney.version7.kingsgatemediaplayer.Modules.FragmentModule;
 import jonburney.version7.kingsgatemediaplayer.Modules.HttpModule;
+import jonburney.version7.kingsgatemediaplayer.Modules.PresenterModule;
 
 /**
  * Created by jburney on 16/02/2016.
  */
 @Singleton
-@Component(modules = {ApplicationModule.class, HttpModule.class, DataProviderModule.class})
+@Component(modules = {ApplicationModule.class, HttpModule.class, DataProviderModule.class, FragmentModule.class, PresenterModule.class})
 public interface IApplicationComponent {
     void inject(MainActivity mainActivity);
     Context context();

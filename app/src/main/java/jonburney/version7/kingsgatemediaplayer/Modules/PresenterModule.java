@@ -16,16 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package jonburney.version7.kingsgatemediaplayer.DataProviders;
+package jonburney.version7.kingsgatemediaplayer.Modules;
 
-import java.util.ArrayList;
-import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import rx.Observable;
+import dagger.Module;
+import dagger.Provides;
+import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
+import jonburney.version7.kingsgatemediaplayer.Presenters.VideoListPresenter;
 
 /**
- * Created by jburney on 16/02/2016.
+ * Created by jburney on 15/03/2016.
  */
-public interface IVideoListDataProvider {
-    public Observable<ArrayList<VideoEntity>> FetchVideoList(String rssFeedUrl);
-    public Observable<ArrayList<VideoEntity>> FetchVideoList();
+@Module
+public class PresenterModule {
+
+    public PresenterModule() {
+
+    }
+
+    @Provides
+    VideoListPresenter providesVideoListPresenter(IVideoListDataProvider dataProvider) {
+        return new VideoListPresenter(dataProvider);
+    }
+
 }

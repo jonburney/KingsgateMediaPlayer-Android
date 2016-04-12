@@ -18,30 +18,18 @@
  */
 package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-
 import javax.inject.Inject;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
+import jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml.KingsgateXmlList;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jburney on 04/03/2016.
@@ -49,152 +37,41 @@ import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 public class KingsgateCustomFeedProvider implements IVideoListDataProvider {
 
     private IHttpClient httpClient;
+    private String defaultFeedUrl = "http://kingsgateuk.com/Media/MediaXML.xml?fid=3882";
+
+    private IKingsgateAdvancedMediaEndpoint kingsgateXmlService;
 
     @Inject
     public KingsgateCustomFeedProvider(IHttpClient httpClient) {
         this.httpClient = httpClient;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://kingsgateuk.com")
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        kingsgateXmlService = retrofit.create(IKingsgateAdvancedMediaEndpoint.class);
     }
 
     @Override
-    public ArrayList<VideoEntity> FetchVideoList(String rssFeedUrl) {
-
-        HttpRequest request = new HttpRequest();
-        try {
-            request.setUrl("http://kingsgateuk.com/Media/MediaXML.xml?fid=3882");
-        } catch (MalformedURLException e) {
-            return new ArrayList<>();
-        }
-        request.setMethod("GET");
-
-        HttpResponse response;
-        try {
-            response = this.httpClient.execute(request);
-        } catch (UrlNotSetException e) {
-            return new ArrayList<>();
-        } catch (IOException e) {
-            return new ArrayList<>();
-        }
-
-        return fetchEntitiesFromXml(response.getStream());
-
+    public Observable<ArrayList<VideoEntity>> FetchVideoList() {
+        return FetchVideoList(defaultFeedUrl);
     }
 
-    /**
-     * Fetch the video entities from the remote XML
-     * @param xmlFeedStream The input XML stream
-     * @return ArrayList<VideoEntity> An array list of video entities
-     */
-    private ArrayList<VideoEntity> fetchEntitiesFromXml(InputStream xmlFeedStream)  {
-        ArrayList<VideoEntity> videoList = new ArrayList<>();
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    @Override
+    public Observable<ArrayList<VideoEntity>> FetchVideoList(String rssFeedUrl) {
 
-        InputSource iSource = new InputSource(xmlFeedStream);
-        NodeList nodes = null;
+        Observable<KingsgateXmlList> response =
+            kingsgateXmlService.getApiResponse()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
 
-        try {
-            nodes = (NodeList)xpath.evaluate("/media/group/group/group/group/item", iSource, XPathConstants.NODESET);
-
-            for (int i=0; i < 10; i++) {
-                VideoEntity video = new VideoEntity();
-
-                Node currentNode = nodes.item(i);
-
-                video.title = this.getVideoTitle(currentNode);
-
-                video.description  = this.getVideoDescription(currentNode);
-                video.duration     = this.getVideoDuration(currentNode);
-                video.thumbnailUrl = this.getVideoThumbnailUrl(currentNode);
-                video.url          = this.getVideoUrl(currentNode);
-                video.thumbnailUrl = this.getVideoThumbnailUrl(currentNode);
-
-                if (video.isValid()) {
-                    videoList.add(video);
-                }
+        return response.map(new Func1<KingsgateXmlList, ArrayList<VideoEntity>>() {
+            @Override
+            public ArrayList<VideoEntity> call(KingsgateXmlList kingsgateXmlList) {
+                return kingsgateXmlList.converyToVideoEntities();
             }
-
-        } catch (XPathExpressionException e) {
-
-            Log.e("XML", "Exception: " + e.getMessage() + "\n" + e.getStackTrace());
-            return videoList;
-        }
-
-        Log.i("XML", "Found: " + nodes.getLength()  + "items");
-
-        return videoList;
+        }).first();
     }
-
-    private String getVideoTitle(Node xmlNode){
-        try {
-            return xmlNode.getAttributes().getNamedItem("title").getNodeValue();
-        } catch (Exception e) {
-            Log.e("XML", "Error (getVideoTitle): " + e.getMessage());
-        }
-
-        return "";
-    }
-
-    private String getVideoDescription(Node xmlNode) {
-        try {
-            return xmlNode.getAttributes().getNamedItem("description").getNodeValue();
-        } catch (Exception e) {
-            Log.e("XML", "Error (getVideoDescription): " + e.getMessage());
-        }
-
-        return "";
-    }
-
-    private String getVideoUrl(Node xmlNode) {
-        try {
-            NodeList childNodes = xmlNode.getChildNodes();
-
-            for (int i=0; i < childNodes.getLength(); i++) {
-                Node targetNode = childNodes.item(i);
-
-               if (targetNode.getNodeName().equals("file")
-                   && targetNode.hasAttributes()
-                   && targetNode.getAttributes().getNamedItem("mime_type").getNodeValue().equals("video/mp4")
-               ) {
-                    String basePath = targetNode.getAttributes().getNamedItem("file_base_path").getNodeValue();
-                    String filename = targetNode.getAttributes().getNamedItem("file_name").getNodeValue();
-
-                    return basePath + filename;
-                }
-            }
-
-        } catch (Exception e) {
-            Log.e("XML", "Error fetching video URL: " + e.getMessage());
-        }
-
-        return "";
-    }
-
-    private String getVideoDuration(Node xmlNode) {
-        try {
-            return xmlNode.getAttributes().getNamedItem("length_text").getNodeValue();
-        } catch (Exception e) {
-            Log.e("XML", "Error (getVideoDuration): " + e.getMessage());
-        }
-
-        return "";
-    }
-
-    private String getVideoThumbnailUrl(Node xmlNode) {
-
-        try {
-            String basePath = xmlNode.getAttributes().getNamedItem("summary_image_path_base").getNodeValue();
-            String fileName = xmlNode.getAttributes().getNamedItem("summary_image_file_name").getNodeValue();
-            return basePath + fileName;
-
-        } catch (Exception e) {
-            Log.e("XML", "Error (getVideoThumbnail): " + e.getMessage());
-        }
-
-        return "";
-    }
-
-
-
-
-
-
 }

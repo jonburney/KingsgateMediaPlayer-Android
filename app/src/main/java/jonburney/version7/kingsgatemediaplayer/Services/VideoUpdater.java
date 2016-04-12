@@ -22,12 +22,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.inject.Inject;
-import javax.xml.xpath.XPathExpressionException;
-
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;
@@ -51,9 +47,7 @@ public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<VideoEnti
     protected ArrayList<VideoEntity> doInBackground(String... urls) {
         ArrayList<VideoEntity> videoList = null;
 
-        videoList = videoListProvider.FetchVideoList(VideoListUrl);
-
-
+       // videoList = videoListProvider.FetchVideoList(VideoListUrl);
         return videoList;
     }
 

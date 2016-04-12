@@ -18,49 +18,29 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Activities;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
 import javax.inject.Inject;
+import butterknife.Bind;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
-import jonburney.version7.kingsgatemediaplayer.DataProviders.EndisRssProvider;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
-import jonburney.version7.kingsgatemediaplayer.DataProviders.KingsgateCustomFeedProvider;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.UrlNotSetException;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpRequest;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.HttpResponse;
 import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
 import jonburney.version7.kingsgatemediaplayer.Services.VideoThumbnailUpdater;
-import jonburney.version7.kingsgatemediaplayer.Services.VideoUpdater;
 
 /**
  * Home activity - The main activity when first starting the appilication
  */
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
+
+    @Bind(R.id.videoList) ListView videoListFragment;
 
     @Inject IVideoListDataProvider videoListDataProvider;
     @Inject IHttpClient httpClient;
@@ -80,18 +60,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.getApplicationComponent().inject(this);
-
         setContentView(R.layout.activity_home);
+
+        /*
 
         ListView videoList = (ListView) findViewById(R.id.videoList);
         videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
                 updateVideoPreview(clickedVideoEntity);
-
-
             }
 
         });
@@ -126,26 +104,7 @@ public class MainActivity extends Activity {
         videoList.setAdapter(adapter);
 
         new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
-    }
-
-    protected void updateVideoPreview(VideoEntity clickedVideoEntity) {
-
-
-        videoPreview = (RelativeLayout)findViewById(R.id.videoPreviewiew);
-        videoPreview.setVisibility(View.VISIBLE);
-
-        TextView videoPreviewTitle = (TextView)findViewById(R.id.videoPreviewTitle);
-        videoPreviewTitle.setText(clickedVideoEntity.title);
-
-        TextView videoPreviewDescription = (TextView)findViewById(R.id.videoPreviewDescription);
-        videoPreviewDescription.setText(clickedVideoEntity.description);
-
-        TextView videoPreviewDuration = (TextView)findViewById(R.id.videoPreviewDuration);
-        videoPreviewDuration.setText("Time: " + clickedVideoEntity.duration);
-
-        new VideoThumbnailUpdater(this, httpClient).execute(clickedVideoEntity.thumbnailUrl);
-
-        selectedVideoEntity = clickedVideoEntity;
+        */
     }
 
     protected IApplicationComponent getApplicationComponent() {

@@ -19,14 +19,12 @@
 package jonburney.version7.kingsgatemediaplayer;
 
 import android.app.Application;
+import android.content.Context;
 
 import jonburney.version7.kingsgatemediaplayer.Components.DaggerIApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.Modules.ApplicationModule;
 
-/**
- * Created by jburney on 16/02/2016.
- */
 public class MainApp extends Application {
 
     private IApplicationComponent applicationComponent;
@@ -38,6 +36,10 @@ public class MainApp extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
 
+    }
+
+    public static MainApp get(Context context) {
+        return (MainApp) context.getApplicationContext();
     }
 
     public IApplicationComponent getApplicationComponent() {
