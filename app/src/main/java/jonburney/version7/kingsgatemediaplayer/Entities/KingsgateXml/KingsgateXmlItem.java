@@ -41,6 +41,20 @@ public class KingsgateXmlItem
     @Attribute(name="description", required=false)
     public String Description;
 
+    @Attribute(name="summary_image_path_base", required=false)
+    private String ThumbnailBasePath;
+
+    @Attribute(name="summary_image_file_name", required=false)
+    private String ThumbnailFilename;
+
+    public String getThumbnailUrl() {
+        if (ThumbnailBasePath == null || ThumbnailBasePath == "" || ThumbnailFilename == null || ThumbnailFilename == "") {
+            return null;
+        }
+
+        return ThumbnailBasePath + ThumbnailFilename;
+    }
+
     public String getVideoUrl() {
 
         if (file == null || file.size() == 0) {

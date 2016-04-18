@@ -52,6 +52,7 @@ public class KingsgateXmlList {
                         videoEntity.title = item.title;
                         videoEntity.description = item.Description;
                         videoEntity.url = item.getVideoUrl();
+                        videoEntity.thumbnailUrl = item.getThumbnailUrl();
 
                         if (videoEntity.isValid()) {
                             videoList.add(videoEntity);

@@ -21,32 +21,17 @@ package jonburney.version7.kingsgatemediaplayer.Activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import javax.inject.Inject;
-import butterknife.Bind;
+import android.widget.FrameLayout;
+import butterknife.ButterKnife;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
-import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;
-import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
-import jonburney.version7.kingsgatemediaplayer.Services.Http.IHttpClient;
-import jonburney.version7.kingsgatemediaplayer.Services.VideoThumbnailUpdater;
 
 /**
  * Home activity - The main activity when first starting the appilication
  */
 public class MainActivity extends BaseActivity {
-
-    @Bind(R.id.videoList) ListView videoListFragment;
-
-    @Inject IVideoListDataProvider videoListDataProvider;
-    @Inject IHttpClient httpClient;
-
-    private RelativeLayout videoPreview;
-    private VideoEntity selectedVideoEntity;
 
     /**
      * Executed when the activity is created
@@ -56,11 +41,15 @@ public class MainActivity extends BaseActivity {
      * @return void
      */
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.getApplicationComponent().inject(this);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+
+        FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.frame_container);
+
+        getFragmentManager().beginTransaction()
+                .replace(fragmentContainer.getId(), VideoListFragment.newInstance()).commit();
 
         /*
 

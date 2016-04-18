@@ -40,4 +40,21 @@ public class Presenter<T extends IView> implements IPresenter<T> {
     public T getMvpView() {
         return view;
     }
+
+    public boolean isViewAttached() {
+        return view != null;
+    }
+
+    public void checkViewAttached() {
+        if (!isViewAttached()) {
+            throw new MvpViewNotAttachedException();
+        }
+    }
+
+    public static class MvpViewNotAttachedException extends RuntimeException {
+        public MvpViewNotAttachedException() {
+            super("Please call Presenter.attachView(IView before requesting data to the presenter");
+        }
+    }
 }
+
