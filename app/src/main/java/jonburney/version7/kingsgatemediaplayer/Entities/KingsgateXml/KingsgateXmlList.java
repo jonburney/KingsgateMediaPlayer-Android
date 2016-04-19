@@ -18,7 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 
-import android.util.Log;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
@@ -32,20 +31,42 @@ import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 @Root(name="media", strict=false)
 public class KingsgateXmlList {
 
-    @Path(value="group/group")
+    @Path(value="group")
     @ElementList(inline=true, entry="group", empty = false)
     public List<KingsgateXmlGroup> group;
 
     public ArrayList<VideoEntity> converyToVideoEntities() {
-        ArrayList<VideoEntity> videoList = new ArrayList<VideoEntity>();
+        ArrayList<VideoEntity> currentSeries = new ArrayList<VideoEntity>();
+        ArrayList<VideoEntity> pastSeries = new ArrayList<VideoEntity>();
 
         for (KingsgateXmlGroup currentGroup: this.group) {
 
-            if (currentGroup.group != null) {
+            if (currentGroup.GroupId.equals(256240)) {
+                currentSeries = parseVideoGroup(currentGroup.group);
+            } else if (currentGroup.GroupId.equals(171224)) {
+                pastSeries = parseVideoGroup(currentGroup.group);
+            }
+        }
 
-                for (KingsgateXmlGroup subGroup: currentGroup.group) {
+        currentSeries.addAll(pastSeries);
 
-                    for (KingsgateXmlItem item : subGroup.item) {
+        return currentSeries;
+    }
+
+    private ArrayList<VideoEntity> parseVideoGroup(List<KingsgateXmlGroup> inputGroup) {
+
+        ArrayList<VideoEntity> videosFound = new ArrayList<VideoEntity>();
+
+        if (inputGroup != null) {
+
+            for (KingsgateXmlGroup currentgroup : inputGroup) {
+
+                if (currentgroup.group != null) {
+                    videosFound.addAll(parseVideoGroup(currentgroup.group));
+                }
+
+                if (currentgroup.item != null) {
+                    for (KingsgateXmlItem item : currentgroup.item) {
 
                         VideoEntity videoEntity = new VideoEntity();
 
@@ -55,16 +76,17 @@ public class KingsgateXmlList {
                         videoEntity.thumbnailUrl = item.getThumbnailUrl();
 
                         if (videoEntity.isValid()) {
-                            videoList.add(videoEntity);
-                        } else {
-                            Log.i("VideoEntity", "Constructed video entity is not valid. Title = " + videoEntity.title);
+                            videosFound.add(videoEntity);
                         }
                     }
                 }
             }
         }
 
-        return videoList;
+
+
+        return videosFound;
+
     }
 }
 

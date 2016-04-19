@@ -50,50 +50,6 @@ public class MainActivity extends BaseActivity {
 
         getFragmentManager().beginTransaction()
                 .replace(fragmentContainer.getId(), VideoListFragment.newInstance()).commit();
-
-        /*
-
-        ListView videoList = (ListView) findViewById(R.id.videoList);
-        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
-                updateVideoPreview(clickedVideoEntity);
-            }
-
-        });
-
-        videoList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
-                updateVideoPreview(clickedVideoEntity);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-
-            }
-        });
-
-        Button playVideoButton = (Button) findViewById(R.id.videoPreviewPlayButton);
-        playVideoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
-                intent.putExtra("VideoUrl", MainActivity.this.selectedVideoEntity.url);
-                startActivity(intent);
-            }
-        });
-
-        ArrayList<VideoEntity> listItems = new ArrayList<>();
-
-        ArrayAdapter<VideoEntity> adapter = new ArrayAdapter<>(this, R.layout.video_list_text, listItems);
-        videoList.setAdapter(adapter);
-
-        new VideoUpdater(this, (IVideoListDataProvider)this.videoListDataProvider).execute();
-        */
     }
 
     protected IApplicationComponent getApplicationComponent() {

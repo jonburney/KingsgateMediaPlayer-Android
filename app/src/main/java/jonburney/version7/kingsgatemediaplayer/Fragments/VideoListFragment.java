@@ -18,7 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Fragments;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
@@ -30,16 +29,6 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Activities.BaseActivity;
@@ -47,7 +36,6 @@ import jonburney.version7.kingsgatemediaplayer.Activities.VideoPlayerActivity;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.Presenters.CardPresenter;
 import jonburney.version7.kingsgatemediaplayer.Presenters.VideoListPresenter;
-import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Views.IVideoListView;
 
 /**
@@ -91,11 +79,16 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
         final ArrayObjectAdapter videoListAdapter = new ArrayObjectAdapter(new CardPresenter());
 
         videoListAdapter.addAll(0, videoEntities);
-        this.videoListAdapter.add(new ListRow(new HeaderItem(0, ""), videoListAdapter));
+
+        ListRow videoListRow = new ListRow(new HeaderItem(0, ""), videoListAdapter);
+        this.videoListAdapter.add(videoListRow);
 
         setListViewClickHandlers();
     }
 
+    /**
+     * Set the click handlers for the items on display
+     */
     private void setListViewClickHandlers() {
 
         OnItemViewClickedListener clickedListener  = new OnItemViewClickedListener() {
