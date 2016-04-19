@@ -19,8 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.Entities;
 
 import android.util.Log;
-
-import java.math.BigInteger;
 import java.util.Date;
 
 /**

@@ -19,13 +19,9 @@
 package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 
 import android.util.Log;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-
-import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -22,7 +22,6 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;

@@ -21,7 +21,6 @@ package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
-import java.math.BigInteger;
 
 @Root(name="file", strict=false)
 public class KingsgateXmlFile {
