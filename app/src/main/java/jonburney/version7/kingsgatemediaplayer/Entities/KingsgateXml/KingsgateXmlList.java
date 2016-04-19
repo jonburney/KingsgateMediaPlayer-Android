@@ -22,6 +22,8 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 
@@ -35,7 +37,7 @@ public class KingsgateXmlList {
     @ElementList(inline=true, entry="group", empty = false)
     public List<KingsgateXmlGroup> group;
 
-    public ArrayList<VideoEntity> converyToVideoEntities() {
+    public ArrayList<VideoEntity> convertToVideoEntities() {
         ArrayList<VideoEntity> currentSeries = new ArrayList<VideoEntity>();
         ArrayList<VideoEntity> pastSeries = new ArrayList<VideoEntity>();
 
@@ -49,7 +51,7 @@ public class KingsgateXmlList {
         }
 
         currentSeries.addAll(pastSeries);
-
+        Collections.sort(currentSeries);
         return currentSeries;
     }
 
@@ -74,6 +76,7 @@ public class KingsgateXmlList {
                         videoEntity.description = item.Description;
                         videoEntity.url = item.getVideoUrl();
                         videoEntity.thumbnailUrl = item.getThumbnailUrl();
+                        videoEntity.createdDate = item.getCreatedDate();
 
                         if (videoEntity.isValid()) {
                             videosFound.add(videoEntity);
@@ -83,10 +86,7 @@ public class KingsgateXmlList {
             }
         }
 
-
-
         return videosFound;
-
     }
 }
 

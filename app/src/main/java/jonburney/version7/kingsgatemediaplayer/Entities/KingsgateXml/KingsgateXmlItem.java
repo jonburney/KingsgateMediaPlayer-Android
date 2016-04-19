@@ -24,6 +24,11 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Root(name="item", strict=false)
@@ -47,12 +52,31 @@ public class KingsgateXmlItem
     @Attribute(name="summary_image_file_name", required=false)
     private String ThumbnailFilename;
 
+    @Attribute(name="recording_dt", required=false)
+    public String CreatedDate;
+
     public String getThumbnailUrl() {
         if (ThumbnailBasePath == null || ThumbnailBasePath == "" || ThumbnailFilename == null || ThumbnailFilename == "") {
             return null;
         }
 
         return ThumbnailBasePath + ThumbnailFilename;
+    }
+
+    public Date getCreatedDate() {
+
+        if (CreatedDate == null) {
+            return null;
+        }
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z");
+        try {
+            return dateFormatter.parse(CreatedDate);
+        } catch (ParseException e) {
+            Log.e("XML Parser", "Failed to process date", e);
+        }
+
+        return null;
     }
 
     public String getVideoUrl() {

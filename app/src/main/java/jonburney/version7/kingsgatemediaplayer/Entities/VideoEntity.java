@@ -18,19 +18,21 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Entities;
 
-import android.graphics.Bitmap;
 import android.util.Log;
+
+import java.math.BigInteger;
+import java.util.Date;
 
 /**
  * Created by jburney on 21/02/2016.
  */
-public class VideoEntity {
+public class VideoEntity implements Comparable<VideoEntity> {
     public String title;
     public String url;
     public String description;
     public String thumbnailUrl;
     public String duration;
-    public Bitmap thumbnailBitmap;
+    public Date createdDate;
 
     @Override
     public String toString() {
@@ -56,6 +58,14 @@ public class VideoEntity {
         }
 
         return true;
+    }
+
+    @Override
+    public int compareTo(VideoEntity comparisonItem) {
+        if (createdDate == null || comparisonItem.createdDate == null) {
+            return 0;
+        }
+        return comparisonItem.createdDate.compareTo(this.createdDate);
     }
 
 }
