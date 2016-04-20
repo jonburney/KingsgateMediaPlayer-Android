@@ -21,6 +21,7 @@ package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
+
 @Root(name="file", strict=false)
 public class KingsgateXmlFile {
     @Attribute(name="mime_type")

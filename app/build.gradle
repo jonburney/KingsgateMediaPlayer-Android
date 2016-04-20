@@ -31,6 +31,7 @@ android {
 	
 	lintOptions {
 		abortOnError false
+        disable 'InvalidPackage'
 	}
 }
 
@@ -45,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '23.1.1'
+    final SUPPORT_LIBRARY_VERSION = '23.0.1'
     final DAGGER_VERSION = "2.0.1"
     final RETROFIT_VERSION = "2.0.0"
 
@@ -68,6 +69,9 @@ dependencies {
         exclude module: 'xpp3'
 
     }
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
 
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     provided "org.glassfish:javax.annotation:10.0-b28"

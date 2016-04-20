@@ -18,6 +18,7 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -31,4 +32,10 @@ public class KingsgateXmlGroup {
 
     @ElementList(entry="item", required=false, inline=true)
     public List<KingsgateXmlItem> item;
+
+    @Attribute(name="title", required=false)
+    public String Title;
+
+    @Attribute(name="group_id", required=false)
+    public Integer GroupId;
 }

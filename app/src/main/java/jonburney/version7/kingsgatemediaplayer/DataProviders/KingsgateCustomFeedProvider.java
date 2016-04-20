@@ -70,7 +70,7 @@ public class KingsgateCustomFeedProvider implements IVideoListDataProvider {
         return response.map(new Func1<KingsgateXmlList, ArrayList<VideoEntity>>() {
             @Override
             public ArrayList<VideoEntity> call(KingsgateXmlList kingsgateXmlList) {
-                return kingsgateXmlList.converyToVideoEntities();
+                return kingsgateXmlList.convertToVideoEntities();
             }
         }).first();
     }

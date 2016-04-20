@@ -34,8 +34,8 @@ import rx.schedulers.Schedulers;
  */
 public class VideoListPresenter extends Presenter<IVideoListView> {
 
-    Subscription videoDataSubscription;
-    IVideoListDataProvider dataProvider;
+    private Subscription videoDataSubscription;
+    private IVideoListDataProvider dataProvider;
 
     @Inject
     public VideoListPresenter(IVideoListDataProvider dataProvider) {
@@ -43,7 +43,17 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
     }
 
 
+    @Override
+    public void detachView() {
+        super.detachView();
+        if (videoDataSubscription != null) {
+            videoDataSubscription.unsubscribe();
+        }
+    }
+
     public void getVideoList() {
+
+        checkViewAttached();
 
         videoDataSubscription = dataProvider.FetchVideoList()
                 .observeOn(AndroidSchedulers.mainThread())

@@ -18,44 +18,37 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Fragments;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
+import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.widget.ArrayObjectAdapter;
+import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ListRow;
+import android.support.v17.leanback.widget.ListRowPresenter;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Activities.BaseActivity;
 import jonburney.version7.kingsgatemediaplayer.Activities.VideoPlayerActivity;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
+import jonburney.version7.kingsgatemediaplayer.Presenters.CardPresenter;
 import jonburney.version7.kingsgatemediaplayer.Presenters.VideoListPresenter;
-import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Views.IVideoListView;
 
 /**
  * Created by jburney on 15/03/2016.
  */
-public class VideoListFragment extends ListFragment implements IVideoListView {
+public class VideoListFragment extends BrowseFragment implements IVideoListView {
 
     @Inject VideoListPresenter videoListPresenter;
 
-    protected View listViewFragment;
-    protected ListView videoList;
+    private ArrayObjectAdapter videoListAdapter;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View view = inflater.inflate(R.layout.video_list_fragment, container, false);
-        listViewFragment = view;
-        videoList = (ListView)listViewFragment.findViewById(R.id.videoList);
-
-        return view;
+    public static VideoListFragment newInstance() {
+        return new VideoListFragment();
     }
 
     @Override
@@ -63,12 +56,11 @@ public class VideoListFragment extends ListFragment implements IVideoListView {
         super.onActivityCreated(savedInstanceState);
         ((BaseActivity) getActivity()).activityComponent().inject(this);
 
-        ArrayList<VideoEntity> listItems = new ArrayList<VideoEntity>();
-        ArrayAdapter<VideoEntity> adapter = new ArrayAdapter<VideoEntity>(getActivity(), R.layout.video_list_text, listItems);
-        setListAdapter(adapter);
-
+        videoListAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         videoListPresenter.attachView(this);
 
+        setAdapter(videoListAdapter);
+        setHeadersState(this.HEADERS_DISABLED);
         getVideoList();
     }
 
@@ -83,23 +75,34 @@ public class VideoListFragment extends ListFragment implements IVideoListView {
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
-        ArrayAdapter<VideoEntity> adapter = (ArrayAdapter<VideoEntity>)getListAdapter();
-        adapter.addAll(videoEntities);
-        adapter.notifyDataSetChanged();
+
+        final ArrayObjectAdapter videoListAdapter = new ArrayObjectAdapter(new CardPresenter());
+
+        videoListAdapter.addAll(0, videoEntities);
+
+        ListRow videoListRow = new ListRow(new HeaderItem(0, ""), videoListAdapter);
+        this.videoListAdapter.add(videoListRow);
+
         setListViewClickHandlers();
     }
 
+    /**
+     * Set the click handlers for the items on display
+     */
     private void setListViewClickHandlers() {
 
-        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        OnItemViewClickedListener clickedListener  = new OnItemViewClickedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VideoEntity clickedVideoEntity = (VideoEntity) parent.getItemAtPosition(position);
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+                VideoEntity clickedVideoEntity = (VideoEntity) item;
                 Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
                 intent.putExtra("VideoUrl", clickedVideoEntity.url);
                 startActivity(intent);
             }
-        });
+
+        };
+
+        setOnItemViewClickedListener(clickedListener);
     }
 
 

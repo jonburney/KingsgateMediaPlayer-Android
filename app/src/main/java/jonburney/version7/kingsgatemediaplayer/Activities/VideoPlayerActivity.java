@@ -36,16 +36,11 @@ public class VideoPlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.setContentView(R.layout.video_player);
-
-        String videoTitle = "";
-        String videoDescription = "";
         String videoUrl = "";
 
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                videoTitle = extras.getString("VideoTitle");
-                videoDescription = extras.getString("VideoDescription");
                 videoUrl = extras.getString("VideoUrl");
             }
         }
