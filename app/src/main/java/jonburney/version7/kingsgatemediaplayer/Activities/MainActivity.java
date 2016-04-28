@@ -19,12 +19,15 @@
 package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import butterknife.ButterKnife;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListPortFragment;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
 
@@ -49,7 +52,7 @@ public class MainActivity extends BaseActivity {
         FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.frame_container);
 
         getFragmentManager().beginTransaction()
-                .replace(fragmentContainer.getId(), VideoListFragment.newInstance()).commit();
+                .replace(fragmentContainer.getId(), VideoListPortFragment.newInstance()).commit();
     }
 
     protected IApplicationComponent getApplicationComponent() {
