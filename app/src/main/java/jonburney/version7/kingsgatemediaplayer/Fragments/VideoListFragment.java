@@ -29,9 +29,6 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Activities.BaseActivity;
@@ -85,7 +82,6 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
 
         ListRow videoListRow = new ListRow(new HeaderItem(0, ""), videoListAdapter);
 
-
         this.videoListAdapter.add(videoEntities);
         setListViewClickHandlers();
     }
@@ -108,6 +104,4 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
 
         setOnItemViewClickedListener(clickedListener);
     }
-
-
 }

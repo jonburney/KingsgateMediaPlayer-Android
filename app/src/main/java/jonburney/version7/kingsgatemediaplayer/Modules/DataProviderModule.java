@@ -38,5 +38,4 @@ public class DataProviderModule {
     IVideoListDataProvider providesIVideoListDataProvider(IHttpClient httpClient) {
         return new KingsgateCustomFeedProvider(httpClient);
     }
-
 }

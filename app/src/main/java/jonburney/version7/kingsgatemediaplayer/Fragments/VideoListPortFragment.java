@@ -19,7 +19,6 @@ import javax.inject.Inject;
 
 import jonburney.version7.kingsgatemediaplayer.Activities.BaseActivity;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
-import jonburney.version7.kingsgatemediaplayer.Presenters.CardPresenter;
 import jonburney.version7.kingsgatemediaplayer.Presenters.VideoListPresenter;
 import jonburney.version7.kingsgatemediaplayer.R;
 import jonburney.version7.kingsgatemediaplayer.Services.RecyclerViewAdapter;
@@ -49,8 +48,6 @@ public class VideoListPortFragment  extends Fragment implements IVideoListView {
         super.onActivityCreated(savedInstanceState);
         ((BaseActivity) getActivity()).activityComponent().inject(this);
 
-        Log.i("Fragment", "Loaded fragmemt");
-
         videoListPresenter.attachView(this);
         videoListAdapter = new RecyclerViewAdapter(null);
 
@@ -61,31 +58,15 @@ public class VideoListPortFragment  extends Fragment implements IVideoListView {
 
         recyclerView.setAdapter(videoListAdapter);
 
-
-
         getVideoList();
-
-        Log.i("Fragment", "Adapter size: " + videoListAdapter.getItemCount());
     }
 
     @Override
     public void getVideoList() {
-        showVideoList(null);
+        videoListPresenter.getVideoList();
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
-
-        videoEntities = new ArrayList<VideoEntity>();
-
-        for (int i=0; i < 5; i++) {
-            VideoEntity videoEntity1 = new VideoEntity();
-            videoEntity1.title = "This is a test title " + i;
-            videoEntity1.description = "This is a description " + i;
-            videoEntity1.thumbnailUrl = "http://kingsgateuk.com/Images/Content/2/753876.jpg";
-            videoEntity1.createdDate = new Date();
-
-            videoEntities.add(i, videoEntity1);
-        }
 
         videoListAdapter.addAll(videoEntities);
         videoListAdapter.notifyDataSetChanged();
