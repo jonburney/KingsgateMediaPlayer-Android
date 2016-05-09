@@ -23,7 +23,7 @@ import android.app.Activity;
 import dagger.Component;
 import jonburney.version7.kingsgatemediaplayer.Attributes.PerActivity;
 import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment;
-import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListPortFragment;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListPhoneFragment;
 import jonburney.version7.kingsgatemediaplayer.Modules.ActivityModule;
 import jonburney.version7.kingsgatemediaplayer.Modules.DataProviderModule;
 import jonburney.version7.kingsgatemediaplayer.Modules.FragmentModule;
@@ -37,5 +37,5 @@ import jonburney.version7.kingsgatemediaplayer.Modules.HttpModule;
 public interface IActivityComponent {
     Activity activity();
     void inject(VideoListFragment videoListFragment);
-    void inject(VideoListPortFragment videoListPortFragment);
+    void inject(VideoListPhoneFragment videoListPhoneFragment);
 }

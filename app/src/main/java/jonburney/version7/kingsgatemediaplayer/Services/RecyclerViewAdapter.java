@@ -1,5 +1,6 @@
 package jonburney.version7.kingsgatemediaplayer.Services;
 
+import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LinearLayout view = (LinearLayout)LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
+        PercentRelativeLayout view = (PercentRelativeLayout)LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -48,7 +49,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
         VideoEntity currentEntity = dataSet.get(position);
 
-        LinearLayout cardView = holder.cardView;
+        PercentRelativeLayout cardView = holder.cardView;
 
         ImageView cardImage = (ImageView)cardView.findViewById(R.id.video_card_image);
         TextView cardTitle = (TextView)cardView.findViewById(R.id.video_card_title);
@@ -75,8 +76,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public LinearLayout cardView;
-        public ViewHolder(LinearLayout view) {
+        public PercentRelativeLayout cardView;
+        public ViewHolder(PercentRelativeLayout view) {
             super(view);
             cardView = view;
         }

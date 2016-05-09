@@ -1,19 +1,18 @@
 package jonburney.version7.kingsgatemediaplayer.Fragments;
 
 import android.app.Fragment;
-import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,7 +26,7 @@ import jonburney.version7.kingsgatemediaplayer.Views.IVideoListView;
 /**
  * Created by jburney on 25/04/2016.
  */
-public class VideoListPortFragment  extends Fragment implements IVideoListView {
+public class VideoListPhoneFragment extends Fragment implements IVideoListView {
 
     @Inject
     VideoListPresenter videoListPresenter;
@@ -43,6 +42,17 @@ public class VideoListPortFragment  extends Fragment implements IVideoListView {
         return rootView;
     }
 
+    private int getOrientation() {
+        Display display = ((WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int rotation = display.getRotation();
+
+        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
+            return LinearLayoutManager.HORIZONTAL;
+        }
+
+        return LinearLayoutManager.VERTICAL;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -53,7 +63,7 @@ public class VideoListPortFragment  extends Fragment implements IVideoListView {
 
         recyclerView.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), getOrientation() , false);
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(videoListAdapter);
@@ -73,7 +83,7 @@ public class VideoListPortFragment  extends Fragment implements IVideoListView {
 
     }
 
-    public static VideoListPortFragment newInstance() {
-        return new VideoListPortFragment();
+    public static VideoListPhoneFragment newInstance() {
+        return new VideoListPhoneFragment();
     }
 }
