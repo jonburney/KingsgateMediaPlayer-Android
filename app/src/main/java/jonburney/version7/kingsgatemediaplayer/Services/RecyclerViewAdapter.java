@@ -1,23 +1,14 @@
 package jonburney.version7.kingsgatemediaplayer.Services;
 
 import android.support.percent.PercentRelativeLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;
 

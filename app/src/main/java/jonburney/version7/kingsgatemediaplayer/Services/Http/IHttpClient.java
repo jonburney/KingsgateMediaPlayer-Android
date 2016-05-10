@@ -18,8 +18,6 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Services.Http;
 
-import java.io.IOException;
-
 import jonburney.version7.kingsgatemediaplayer.Exceptions.Http.HttpClientException;
 
 /**

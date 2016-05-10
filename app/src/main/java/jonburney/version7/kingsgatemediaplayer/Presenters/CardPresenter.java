@@ -20,14 +20,9 @@ package jonburney.version7.kingsgatemediaplayer.Presenters;
 
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;

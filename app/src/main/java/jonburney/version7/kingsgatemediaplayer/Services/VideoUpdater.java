@@ -22,8 +22,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.DataProviders.IVideoListDataProvider;

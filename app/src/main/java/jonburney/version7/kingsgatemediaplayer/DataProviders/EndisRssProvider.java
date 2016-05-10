@@ -19,7 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
 import android.util.Log;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;

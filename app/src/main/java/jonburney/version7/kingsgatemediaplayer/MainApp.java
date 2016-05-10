@@ -20,7 +20,6 @@ package jonburney.version7.kingsgatemediaplayer;
 
 import android.app.Application;
 import android.content.Context;
-
 import jonburney.version7.kingsgatemediaplayer.Components.DaggerIApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
 import jonburney.version7.kingsgatemediaplayer.Modules.ApplicationModule;

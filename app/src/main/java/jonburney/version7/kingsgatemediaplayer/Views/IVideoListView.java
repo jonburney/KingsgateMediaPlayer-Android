@@ -19,7 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.Views;
 
 import java.util.ArrayList;
-
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 
 /**
