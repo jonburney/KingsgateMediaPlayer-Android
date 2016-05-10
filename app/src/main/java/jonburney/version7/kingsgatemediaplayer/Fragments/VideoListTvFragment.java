@@ -41,14 +41,14 @@ import jonburney.version7.kingsgatemediaplayer.Views.IVideoListView;
 /**
  * Created by jburney on 15/03/2016.
  */
-public class VideoListFragment extends BrowseFragment implements IVideoListView {
+public class VideoListTvFragment extends BrowseFragment implements IVideoListView {
 
     @Inject VideoListPresenter videoListPresenter;
 
     private ArrayObjectAdapter videoListAdapter;
 
-    public static VideoListFragment newInstance() {
-        return new VideoListFragment();
+    public static VideoListTvFragment newInstance() {
+        return new VideoListTvFragment();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
 
         ListRow videoListRow = new ListRow(new HeaderItem(0, ""), videoListAdapter);
 
-        this.videoListAdapter.add(videoEntities);
+        this.videoListAdapter.add(videoListRow);
         setListViewClickHandlers();
     }
 
