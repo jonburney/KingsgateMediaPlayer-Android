@@ -21,6 +21,7 @@ package jonburney.version7.kingsgatemediaplayer.Presenters;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
@@ -70,6 +71,9 @@ public class CardPresenter extends Presenter {
         }
         int cardWidth = (int)(calculatedScreenWidth - ((calculatedScreenWidth * 0.07) * 2));
         int cardHeight = (int)(cardWidth * 0.5625);
+
+        Log.i("View", "Setting width = " + cardWidth);
+        Log.i("View", "Setting height = " + cardHeight);
 
         cardView.setTitleText(videoEntity.title);
         cardView.setContentText(videoEntity.description);

@@ -75,7 +75,7 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
         ((BaseActivity) getActivity()).activityComponent().inject(this);
 
         videoListPresenter.attachView(this);
-        videoListAdapter = new RecyclerViewAdapter(null);
+        videoListAdapter = new RecyclerViewAdapter(null, getOrientation());
 
         recyclerView.setHasFixedSize(true);
 
@@ -89,13 +89,31 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
 
     @Override
     public void getVideoList() {
-        videoListPresenter.getVideoList();
+        //videoListPresenter.getVideoList();
+
+        ArrayList<VideoEntity> tempVideoList = new ArrayList<VideoEntity>();
+
+        for (int i = 0; i < 5; i++) {
+            VideoEntity videoEntity = new VideoEntity();
+            videoEntity.title = "Test Video " + i;
+            videoEntity.description = "Video description " + i;
+            videoEntity.thumbnailUrl = "http://kingsgateuk.com/Images/Content/2/775256.jpg";
+
+            tempVideoList.add(i, videoEntity);
+        }
+
+        showVideoList(tempVideoList);
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
 
         videoListAdapter.addAll(videoEntities);
         videoListAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void showError(String messageText) {
 
     }
 

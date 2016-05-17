@@ -71,7 +71,12 @@ public class VideoListTvFragment extends BrowseFragment implements IVideoListVie
     }
 
     public void getVideoList() {
-        videoListPresenter.getVideoList();
+
+        try {
+            videoListPresenter.getVideoList();
+        } catch (Exception ex) {
+
+        }
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
@@ -84,6 +89,11 @@ public class VideoListTvFragment extends BrowseFragment implements IVideoListVie
 
         this.videoListAdapter.add(videoListRow);
         setListViewClickHandlers();
+    }
+
+    @Override
+    public void showError(String messageText) {
+
     }
 
     /**

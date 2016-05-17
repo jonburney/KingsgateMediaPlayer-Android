@@ -72,6 +72,7 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
 
                     @Override
                     public void onNext(ArrayList<VideoEntity> videoEntities) {
+
                         getMvpView().showVideoList(videoEntities);
                     }
                 });
