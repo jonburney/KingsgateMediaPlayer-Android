@@ -1,25 +1,19 @@
 package jonburney.version7.kingsgatemediaplayer.Services;
 
 import android.content.Context;
-import android.support.percent.PercentRelativeLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.R;
@@ -27,19 +21,29 @@ import jonburney.version7.kingsgatemediaplayer.R;
 /**
  * Created by jburney on 26/04/2016.
  */
-public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private int orientation;
     private ArrayList<VideoEntity> dataSet;
+    private final IVideoClickListner clickListener;
+
+    public interface IVideoClickListner {
+        void onItemClick(VideoEntity item);
+    }
 
     // @Todo - Change this to take a presneter and move the formatting logic
-    public RecyclerViewAdapter(ArrayList<VideoEntity> dataSet, int orientation) {
+    public RecyclerViewAdapter(ArrayList<VideoEntity> dataSet, int orientation, IVideoClickListner clickListener) {
         this.dataSet = dataSet;
         this.orientation = orientation;
+        this.clickListener = clickListener;
     }
 
     public void addAll(ArrayList<VideoEntity> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public VideoEntity getItemAtPosition(int position) {
+        return dataSet.get(position);
     }
 
     @Override
@@ -54,6 +58,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         float cardWidthPercentage = 0.8f;
+        holder.bind(dataSet.get(position), clickListener);
 
         if (orientation == LinearLayoutManager.HORIZONTAL) {
             cardWidthPercentage = 0.5f;
@@ -159,6 +164,17 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             super(view);
             cardView = view;
         }
+
+        public void bind(final VideoEntity item, final IVideoClickListner clickListener) {
+            cardView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(item);
+                }
+            });
+        }
     }
+
 
 }

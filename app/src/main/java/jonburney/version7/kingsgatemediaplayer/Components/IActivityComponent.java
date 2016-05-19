@@ -19,7 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.Components;
 
 import android.app.Activity;
-
 import dagger.Component;
 import jonburney.version7.kingsgatemediaplayer.Attributes.PerActivity;
 import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListTvFragment;

@@ -21,6 +21,7 @@ package jonburney.version7.kingsgatemediaplayer.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ import android.view.WindowManager;
 import java.util.ArrayList;
 import javax.inject.Inject;
 import jonburney.version7.kingsgatemediaplayer.Activities.BaseActivity;
+import jonburney.version7.kingsgatemediaplayer.Activities.VideoPlayerActivity;
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 import jonburney.version7.kingsgatemediaplayer.Presenters.VideoListPresenter;
 import jonburney.version7.kingsgatemediaplayer.R;
@@ -75,7 +77,15 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
         ((BaseActivity) getActivity()).activityComponent().inject(this);
 
         videoListPresenter.attachView(this);
-        videoListAdapter = new RecyclerViewAdapter(null, getOrientation());
+        videoListAdapter = new RecyclerViewAdapter(null, getOrientation(), new RecyclerViewAdapter.IVideoClickListner() {
+
+            @Override
+            public void onItemClick(VideoEntity item) {
+                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                intent.putExtra("VideoUrl", item.url);
+                startActivity(intent);
+            }
+        });
 
         recyclerView.setHasFixedSize(true);
 
@@ -89,28 +99,15 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
 
     @Override
     public void getVideoList() {
-        //videoListPresenter.getVideoList();
-
-        ArrayList<VideoEntity> tempVideoList = new ArrayList<VideoEntity>();
-
-        for (int i = 0; i < 5; i++) {
-            VideoEntity videoEntity = new VideoEntity();
-            videoEntity.title = "Test Video " + i;
-            videoEntity.description = "Video description " + i;
-            videoEntity.thumbnailUrl = "http://kingsgateuk.com/Images/Content/2/775256.jpg";
-
-            tempVideoList.add(i, videoEntity);
-        }
-
-        showVideoList(tempVideoList);
+        videoListPresenter.getVideoList();
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
-
         videoListAdapter.addAll(videoEntities);
         videoListAdapter.notifyDataSetChanged();
-
     }
+
+
 
     @Override
     public void showError(String messageText) {
@@ -120,4 +117,7 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
     public static VideoListPhoneFragment newInstance() {
         return new VideoListPhoneFragment();
     }
+
 }
+
+
