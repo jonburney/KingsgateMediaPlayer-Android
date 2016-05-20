@@ -20,9 +20,11 @@ package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import jonburney.version7.kingsgatemediaplayer.R;
@@ -34,6 +36,7 @@ public class VideoPlayerActivity extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullscreen();
 
         this.setContentView(R.layout.video_player);
         String videoUrl = "";
@@ -67,5 +70,16 @@ public class VideoPlayerActivity extends Activity {
                 mp.start();
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfiguration) {
+        super.onConfigurationChanged(newConfiguration);
+        setFullscreen();
+
+    }
+
+    private void setFullscreen() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }

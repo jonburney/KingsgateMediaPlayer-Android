@@ -29,7 +29,8 @@
         </activity>
 
         <activity android:name=".Activities.VideoPlayerActivity"
-			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode">
         </activity>
 
 
