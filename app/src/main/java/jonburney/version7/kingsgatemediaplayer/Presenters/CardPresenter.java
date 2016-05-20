@@ -20,6 +20,8 @@ package jonburney.version7.kingsgatemediaplayer.Presenters;
 
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
@@ -31,8 +33,7 @@ import jonburney.version7.kingsgatemediaplayer.R;
  */
 public class CardPresenter extends Presenter {
 
-    private static final int CARD_WIDTH = 640;
-    private static final int CARD_HEIGHT = 360;
+    private static final int CARD_MAX_WIDTH = 640;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
@@ -47,7 +48,9 @@ public class CardPresenter extends Presenter {
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
 
-        return new ViewHolder(cardView);
+        ViewHolder viewHolder = new ViewHolder(cardView);
+
+        return viewHolder;
     }
 
     @Override
@@ -56,13 +59,28 @@ public class CardPresenter extends Presenter {
         VideoEntity videoEntity = (VideoEntity)item;
 
         ImageCardView cardView = (ImageCardView)viewHolder.view;
+
+        DisplayMetrics metrics = cardView.getResources().getDisplayMetrics();
+
+        int calculatedScreenWidth;
+
+        if (metrics.widthPixels > CARD_MAX_WIDTH) {
+            calculatedScreenWidth = CARD_MAX_WIDTH;
+        } else {
+            calculatedScreenWidth = metrics.widthPixels;
+        }
+        int cardWidth = (int)(calculatedScreenWidth - ((calculatedScreenWidth * 0.07) * 2));
+        int cardHeight = (int)(cardWidth * 0.5625);
+
+        Log.i("View", "Setting width = " + cardWidth);
+        Log.i("View", "Setting height = " + cardHeight);
+
         cardView.setTitleText(videoEntity.title);
         cardView.setContentText(videoEntity.description);
-        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+        cardView.setMainImageDimensions(cardWidth, cardHeight);
 
         Glide.with(cardView.getContext())
                 .load(videoEntity.thumbnailUrl)
-                .override(CARD_WIDTH, CARD_HEIGHT)
                 .fitCenter()
                 .into(cardView.getMainImageView());
     }

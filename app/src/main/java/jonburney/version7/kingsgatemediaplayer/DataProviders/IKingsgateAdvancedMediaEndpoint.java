@@ -20,7 +20,6 @@ package jonburney.version7.kingsgatemediaplayer.DataProviders;
 
 import jonburney.version7.kingsgatemediaplayer.Entities.KingsgateXml.KingsgateXmlList;
 import rx.Observable;
-
 import retrofit2.http.GET;
 
 /**

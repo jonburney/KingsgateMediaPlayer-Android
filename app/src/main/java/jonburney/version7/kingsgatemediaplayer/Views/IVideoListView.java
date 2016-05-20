@@ -19,7 +19,6 @@
 package jonburney.version7.kingsgatemediaplayer.Views;
 
 import java.util.ArrayList;
-
 import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 
 /**
@@ -28,4 +27,5 @@ import jonburney.version7.kingsgatemediaplayer.Entities.VideoEntity;
 public interface IVideoListView extends IView {
     void getVideoList();
     void showVideoList(ArrayList<VideoEntity> videoEntities);
+    void showError(String messageText);
 }

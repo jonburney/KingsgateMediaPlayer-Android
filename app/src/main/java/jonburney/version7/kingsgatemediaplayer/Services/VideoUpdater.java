@@ -54,7 +54,7 @@ public class VideoUpdater extends AsyncTask<String, Integer, ArrayList<VideoEnti
     protected void onPostExecute(ArrayList<VideoEntity> results) {
         super.onPostExecute(results);
 
-        ListView VideoListView = (ListView) HomeActivity.findViewById(R.id.videoList);
+        ListView VideoListView = (ListView) HomeActivity.findViewById(R.id.videoListTextView);
         ArrayAdapter<VideoEntity> adapter = (ArrayAdapter<VideoEntity>)VideoListView.getAdapter();
 
         if (results.size() > 0) {

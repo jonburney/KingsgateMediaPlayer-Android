@@ -41,14 +41,14 @@ import jonburney.version7.kingsgatemediaplayer.Views.IVideoListView;
 /**
  * Created by jburney on 15/03/2016.
  */
-public class VideoListFragment extends BrowseFragment implements IVideoListView {
+public class VideoListTvFragment extends BrowseFragment implements IVideoListView {
 
     @Inject VideoListPresenter videoListPresenter;
 
     private ArrayObjectAdapter videoListAdapter;
 
-    public static VideoListFragment newInstance() {
-        return new VideoListFragment();
+    public static VideoListTvFragment newInstance() {
+        return new VideoListTvFragment();
     }
 
     @Override
@@ -71,7 +71,12 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
     }
 
     public void getVideoList() {
-        videoListPresenter.getVideoList();
+
+        try {
+            videoListPresenter.getVideoList();
+        } catch (Exception ex) {
+
+        }
     }
 
     public void showVideoList(ArrayList<VideoEntity> videoEntities) {
@@ -81,9 +86,14 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
         videoListAdapter.addAll(0, videoEntities);
 
         ListRow videoListRow = new ListRow(new HeaderItem(0, ""), videoListAdapter);
-        this.videoListAdapter.add(videoListRow);
 
+        this.videoListAdapter.add(videoListRow);
         setListViewClickHandlers();
+    }
+
+    @Override
+    public void showError(String messageText) {
+
     }
 
     /**
@@ -104,6 +114,4 @@ public class VideoListFragment extends BrowseFragment implements IVideoListView 
 
         setOnItemViewClickedListener(clickedListener);
     }
-
-
 }

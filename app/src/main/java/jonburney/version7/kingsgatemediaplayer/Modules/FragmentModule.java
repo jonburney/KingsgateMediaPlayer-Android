@@ -20,7 +20,7 @@ package jonburney.version7.kingsgatemediaplayer.Modules;
 
 import dagger.Module;
 import dagger.Provides;
-import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListTvFragment;
 
 /**
  * Created by jburney on 15/03/2016.
@@ -33,7 +33,9 @@ public class FragmentModule
     }
 
     @Provides
-    VideoListFragment providesVideoListFragment() {
-        return new VideoListFragment();
+    VideoListTvFragment providesVideoListFragment() {
+        return new VideoListTvFragment();
     }
+
+
 }

@@ -19,17 +19,19 @@
 package jonburney.version7.kingsgatemediaplayer.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import butterknife.ButterKnife;
 import jonburney.version7.kingsgatemediaplayer.Components.IApplicationComponent;
-import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListFragment;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListPhoneFragment;
+import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListTvFragment;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
 
 /**
- * Home activity - The main activity when first starting the appilication
+ * Home activity - The main activity when first starting the application
  */
 public class MainActivity extends BaseActivity {
 
@@ -48,8 +50,19 @@ public class MainActivity extends BaseActivity {
 
         FrameLayout fragmentContainer = (FrameLayout) findViewById(R.id.frame_container);
 
-        getFragmentManager().beginTransaction()
-                .replace(fragmentContainer.getId(), VideoListFragment.newInstance()).commit();
+        // @TODO - Create a new fragment interface that exposes newInstance() so we can remove this
+        // conditional code and replace with a method call
+        if (!getPackageManager().hasSystemFeature("android.hardware.touchscreen")) {
+
+            Log.i("Startup", "TV detected, starting TV fragment");
+            getFragmentManager().beginTransaction()
+                    .replace(fragmentContainer.getId(), VideoListTvFragment.newInstance()).commit();
+        } else {
+
+            Log.i("Startup", "Phone / Tablet detected, starting Phone fragment");
+            getFragmentManager().beginTransaction()
+                    .replace(fragmentContainer.getId(), VideoListPhoneFragment.newInstance()).commit();
+        }
     }
 
     protected IApplicationComponent getApplicationComponent() {
