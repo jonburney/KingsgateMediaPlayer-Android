@@ -10,8 +10,8 @@ android {
         applicationId "jonburney.version7.kingsgatemediaplayer"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 5
-        versionName "0.5"
+        versionCode 6
+        versionName "0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "b641344553cf460dba37e70809f8205e"]
     }
