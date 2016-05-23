@@ -27,6 +27,9 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import net.hockeyapp.android.Tracking;
+
 import jonburney.version7.kingsgatemediaplayer.R;
 
 /**
@@ -70,6 +73,18 @@ public class VideoPlayerActivity extends Activity {
                 mp.start();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Tracking.startUsage(this);
+    }
+
+    @Override
+    protected void onPause() {
+        Tracking.stopUsage(this);
+        super.onPause();
     }
 
     @Override

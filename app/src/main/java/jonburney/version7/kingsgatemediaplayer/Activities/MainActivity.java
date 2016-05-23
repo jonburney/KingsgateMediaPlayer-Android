@@ -29,6 +29,10 @@ import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListPhoneFragment;
 import jonburney.version7.kingsgatemediaplayer.Fragments.VideoListTvFragment;
 import jonburney.version7.kingsgatemediaplayer.MainApp;
 import jonburney.version7.kingsgatemediaplayer.R;
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.Tracking;
+import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.metrics.MetricsManager;
 
 /**
  * Home activity - The main activity when first starting the application
@@ -63,6 +67,35 @@ public class MainActivity extends BaseActivity {
             getFragmentManager().beginTransaction()
                     .replace(fragmentContainer.getId(), VideoListPhoneFragment.newInstance()).commit();
         }
+
+        // Check for updates via hockeyapp
+        UpdateManager.register(this);
+        MetricsManager.register(this, getApplication());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CrashManager.register(this);
+        Tracking.startUsage(this);
+    }
+
+    @Override
+    public void onPause() {
+        Tracking.stopUsage(this);
+        super.onPause();
+        unregisterUpdateManager();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterUpdateManager();
+    }
+
+    private void unregisterUpdateManager() {
+        UpdateManager.unregister();
     }
 
     protected IApplicationComponent getApplicationComponent() {

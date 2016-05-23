@@ -13,6 +13,7 @@ android {
         versionCode 5
         versionName "0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: "b641344553cf460dba37e70809f8205e"]
     }
 
     compileOptions {
@@ -71,7 +72,7 @@ dependencies {
         exclude module: 'xpp3'
 
     }
-
+    compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
