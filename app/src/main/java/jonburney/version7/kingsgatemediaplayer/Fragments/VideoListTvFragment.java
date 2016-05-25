@@ -18,6 +18,7 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BrowseFragment;
@@ -68,6 +69,11 @@ public class VideoListTvFragment extends BrowseFragment implements IVideoListVie
     public void onDestroy() {
         super.onDestroy();
         videoListPresenter.detachView();
+    }
+
+    @Override
+    public Context getContext() {
+        return videoListPresenter.getMvpView().getContext();
     }
 
     public void getVideoList() {

@@ -18,6 +18,9 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Presenters;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -60,6 +63,17 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ArrayList<VideoEntity>>() {
 
+                    ProgressDialog progressDialog;
+                    AlertDialog alertDialog;
+
+                    @Override
+                    public void onStart() {
+                        progressDialog = new ProgressDialog(getMvpView().getContext());
+                        progressDialog.setTitle("Fetching Video List");
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.show();
+                    }
+
                     @Override
                     public void onCompleted() {
 
@@ -67,12 +81,36 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        progressDialog.dismiss();
+
+                        alertDialog = new AlertDialog.Builder(getMvpView().getContext()).create();
+                        alertDialog.setTitle("Oops");
+                        alertDialog.setMessage("There was a problem fetching the list of videos from the website.");
+
+
+                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Try Again", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                getMvpView().getVideoList();
+                            }
+                        });
+
+                        alertDialog.show();
+
                         Log.e("VideoListPresenter", "Error: ", e);
                     }
 
                     @Override
                     public void onNext(ArrayList<VideoEntity> videoEntities) {
-
+                        progressDialog.dismiss();
                         getMvpView().showVideoList(videoEntities);
                     }
                 });

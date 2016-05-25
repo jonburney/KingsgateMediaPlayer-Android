@@ -107,6 +107,10 @@ public class VideoListPhoneFragment extends Fragment implements IVideoListView {
         videoListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public Context getContext() {
+        return recyclerView.getContext();
+    }
 
 
     @Override
