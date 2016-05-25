@@ -18,6 +18,7 @@
  */
 package jonburney.version7.kingsgatemediaplayer.Presenters;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -60,6 +61,16 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<ArrayList<VideoEntity>>() {
 
+                    ProgressDialog progressDialog;
+
+                    @Override
+                    public void onStart() {
+                        progressDialog = new ProgressDialog(getMvpView().getContext());
+                        progressDialog.setTitle("Fetching Video List");
+                        progressDialog.setMessage("Loading...");
+                        progressDialog.show();
+                    }
+
                     @Override
                     public void onCompleted() {
 
@@ -72,7 +83,7 @@ public class VideoListPresenter extends Presenter<IVideoListView> {
 
                     @Override
                     public void onNext(ArrayList<VideoEntity> videoEntities) {
-
+                        progressDialog.dismiss();
                         getMvpView().showVideoList(videoEntities);
                     }
                 });
