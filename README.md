@@ -10,4 +10,4 @@ An (unofficial) media player for Android to play podcasts from Kingsgate Church 
 
 ![Screenshot](http://www.version7.co.uk/wp-content/uploads/2016/05/amazon-5-1024x576.png)
 
-[![Click here to view a video demo](http://www.version7.co.uk/wp-content/uploads/2016/09/Capture.jpg)](https://www.youtube.com/watch?v=https://youtu.be/mBx10v5Drio)
+[![Click here to view a video demo](http://www.version7.co.uk/wp-content/uploads/2016/09/Capture.jpg)](https://www.youtube.com/watch?v=mBx10v5Drio)
